@@ -1,16 +1,13 @@
 ﻿using KitchenStorage.Entities.Base;
 
-namespace KitchenStorage.Entities
+namespace KitchenStorage.Entities;
+
+public record Food : BaseEntity
 {
-    public record Food : BaseEntity
-    {
-        [Required]
-        public string Name { get; set; }
+    [Required]
+    public string Name { get; set; }
 
+    // Realtions
 
-
-        // Realtions
-
-        public List<Norm> Norms { get; set; }
-    }
+    public List<Norm> Norms { get; set; }
 }

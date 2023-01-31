@@ -1,9 +1,8 @@
 ﻿using KitchenStorage.Entities.Base;
 
-namespace KitchenStorage.Entities
+namespace KitchenStorage.Entities;
+
+public record Group : BaseEntity
 {
-    public record Group : BaseEntity
-    {
-        public string Name { get; set; }
-    }
+    public string Name { get; set; }
 }
