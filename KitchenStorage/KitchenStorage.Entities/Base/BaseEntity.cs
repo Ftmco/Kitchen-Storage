@@ -2,6 +2,12 @@
 
 public record BaseEntity
 {
+    public BaseEntity()
+    {
+        CreateDate = DateTime.Now;
+        Status = (byte)EntityStatus.Active;
+    }
+
     [Key]
     public Guid Id { get; set; }
 
