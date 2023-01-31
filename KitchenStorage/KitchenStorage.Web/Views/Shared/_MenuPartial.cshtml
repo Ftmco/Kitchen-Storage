@@ -1,7 +1,6 @@
 ﻿@{
     var currentController = ViewContext.RouteData.Values["Controller"];
     var currentAction = ViewContext.RouteData.Values["Action"];
-    //int currentBaseKindId = !string.IsNullOrEmpty(ViewContext.HttpContext.Request.Query["basekindid"]) ? Convert.ToInt32(ViewContext.HttpContext.Request.Query["basekindid"]) : 0;
 }
 <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" data-icon-style="">
     <li class="nav-item @(currentController.ToString() == "Home"?"active":"")">
