@@ -10,5 +10,11 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\KitchenStorage.DataBase\KitchenStorage.DataBase.csproj" />
+	  <ProjectReference Include="..\KitchenStorage.Entities\KitchenStorage.Entities.csproj" />
+	  <ProjectReference Include="..\KitchenStorage.Services.Abstraction\KitchenStorage.Services.Abstraction.csproj" />
+	</ItemGroup>
 	
 </Project>
