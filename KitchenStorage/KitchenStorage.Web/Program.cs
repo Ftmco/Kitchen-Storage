@@ -1,7 +1,11 @@
+using KitchenStorage.Services.Implementation.Injection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddKitchenServices(builder.Configuration);
 
 var app = builder.Build();
 
