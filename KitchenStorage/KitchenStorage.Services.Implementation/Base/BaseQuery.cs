@@ -1,15 +1,17 @@
-﻿using KitchenStorage.Services.Abstraction.Base;
+﻿using KitchenStorage.DataBase.Context;
+using KitchenStorage.Services.Abstraction.Base;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace KitchenStorage.Services.Implementation.Base;
 
 internal class BaseQuery<TEntity> : IBaseQuery<TEntity> where TEntity : class
 {
-    readonly CoffeeContext _context;
+    readonly KitchenContext _context;
 
     readonly DbSet<TEntity> _dbSet;
 
-    public BaseQuery(CoffeeContext context)
+    public BaseQuery(KitchenContext context)
     {
         _context = context;
         _dbSet = _context.Set<TEntity>();

@@ -1,15 +1,17 @@
-﻿using KitchenStorage.Services.Abstraction.Base;
+﻿using KitchenStorage.DataBase.Context;
+using KitchenStorage.Services.Abstraction.Base;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace KitchenStorage.Services.Implementation.Base;
 
 internal class BaseCud<TEntity> : IBaseCud<TEntity> where TEntity : class
 {
-    private readonly CoffeeContext _context;
+    private readonly KitchenContext _context;
 
     private readonly DbSet<TEntity> _dbSet;
 
-    public BaseCud(CoffeeContext context)
+    public BaseCud(KitchenContext context)
     {
         _context = context;
         _dbSet = _context.Set<TEntity>();
