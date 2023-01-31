@@ -11,87 +11,91 @@
         </a>
     </li>
 
-    <li class="nav-item @(currentController.ToString() == "ServiceTypeQuestion"?"active":"")">
-        <a asp-controller="ServiceTypeQuestion" asp-action="Index">
-            <i class="bx bx-windows"></i>
-            <span class="menu-title">گروه ها</span>
+    <li class="nav-item @(currentController.ToString() == "Notes"?"active":"")">
+        <a asp-controller="Notes" asp-action="Index">
+            <i class="bx bxs-note"></i>
+            <span class="menu-title">یادداشت ها</span>
         </a>
     </li>
 
-    <li class="has-sub open">
+    <li class="has-sub">
         <a href="javascript:">
-            <i class="bx bx-file"></i>
-            <span class="menu-item">انبار</span>
+            <i class="bx bx-restaurant"></i>
+            <span class="menu-item">غذا</span>
         </a>
         <ul class="menu-content" style="">
             <li class="active">
-                <a asp-controller="Base" asp-action="Index" >
-                    <i class="bx bx-file"></i>
-                    <span class="menu-item">موجودی</span>
+                <a asp-controller="Base" asp-action="Index">
+                    <i class="bx bx-list-ol"></i>
+                    <span class="menu-item">لیست غذا ها</span>
                 </a>
             </li>
-            <li class="actvie">
+            <li class="active">
                 <a asp-controller="Base" asp-action="Index">
-                    <i class="bx bx-file"></i>
-                    <span class="menu-item">کارواش با آب</span>
+                    <i class="bx bx-window-open"></i>
+                    <span class="menu-item">گزارش غذا</span>
                 </a>
             </li>
         </ul>
     </li>
-    @* <li class="nav-item has-sub @(currentBaseKindId != 0 ? (currentBaseKindId== Convert.ToInt32(BaseKindEnum.TechnicalSpecificationItems)
-    || currentBaseKindId == Convert.ToInt32(BaseKindEnum.TypesOfCarWashServicesWithOutWater)
-    || currentBaseKindId == Convert.ToInt32(BaseKindEnum.TypesOfCarWashServicesWithWater)
-    || currentBaseKindId == Convert.ToInt32(BaseKindEnum.TypesOfRepairServices)
-    || currentBaseKindId == Convert.ToInt32(BaseKindEnum.TypesOfCarServiceCenters)
-    || currentBaseKindId == Convert.ToInt32(BaseKindEnum.TypesOfAccessoryCenters))
-    ? "sidebar-group-active open" : "": ""
+
+    <li class="has-sub">
+        <a href="javascript:">
+            <i class="bx bx-store"></i>
+            <span class="menu-item">انبار</span>
+        </a>
+        <ul class="menu-content" style="">
+            <li class="active">
+                <a asp-controller="Base" asp-action="Index">
+                    <i class="bx bx-grid"></i>
+                    <span class="menu-item">گروه ها</span>
+                </a>
+            </li>
+            <li class="active">
+                <a asp-controller="Base" asp-action="Index">
+                    <i class="bx bx-menu-alt-right"></i>
+                    <span class="menu-item">موجودی</span>
+                </a>
+            </li>
+            <li class="active">
+                <a asp-controller="Base" asp-action="Index">
+                    <i class="bx bx-window-open"></i>
+                    <span class="menu-item">گزارش</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+
+
+    @*<li class="nav-item has-sub open"
     )">
     <a href="javascript:">
     <i class="bx bx-file"></i>
     <span class="menu-title" data-i18n="Invoice">سایر اطلاعات پایه</span>
     </a>
     <ul class="menu-content" style="">
-    <li class="@(currentBaseKindId== Convert.ToInt32(BaseKindEnum.TechnicalSpecificationItems)?"active":"")">
-    <a asp-controller="Base" asp-action="Index" asp-route-basekindid="@Convert.ToInt32(BaseKindEnum.TechnicalSpecificationItems)">
+    <li class="active">
+    <a asp-controller="Base" asp-action="Index">
     <i class="bx bx-file"></i>
     <span class="menu-item">آیتم های مشخصات فنی</span>
     </a>
 
     </li>
-    <li class="has-sub @(currentBaseKindId== Convert.ToInt32(BaseKindEnum.TypesOfCarWashServicesWithOutWater) ||currentBaseKindId== Convert.ToInt32(BaseKindEnum.TypesOfCarWashServicesWithWater) ?"open":"")">
-    <a href="javascript:">
-    <i class="bx bx-file"></i>
-    <span class="menu-item">انواع خدمات کارواش</span>
-    </a>
-    <ul class="menu-content" style="">
-    <li class="@(currentBaseKindId== Convert.ToInt32(BaseKindEnum.TypesOfCarWashServicesWithOutWater)?"active":"")">
-    <a asp-controller="Base" asp-action="Index" asp-route-basekindid="@Convert.ToInt32(BaseKindEnum.TypesOfCarWashServicesWithOutWater)">
-    <i class="bx bx-file"></i>
-    <span class="menu-item">کارواش بدون آب</span>
-    </a>
-    </li>
-    <li class="@(currentBaseKindId== Convert.ToInt32(BaseKindEnum.TypesOfCarWashServicesWithWater)?"active":"")">
-    <a asp-controller="Base" asp-action="Index" asp-route-basekindid="@Convert.ToInt32(BaseKindEnum.TypesOfCarWashServicesWithWater)">
-    <i class="bx bx-file"></i>
-    <span class="menu-item">کارواش با آب</span>
-    </a>
-    </li>
-    </ul>
-    </li>
-    <li class="@(currentBaseKindId== Convert.ToInt32(BaseKindEnum.TypesOfRepairServices)?"active":"")">
-    <a asp-controller="Base" asp-action="Index" asp-route-basekindid="@Convert.ToInt32(BaseKindEnum.TypesOfRepairServices)">
+
+    <li class="active">
+    <a asp-controller="Base" asp-action="Index">
     <i class="bx bx-file"></i>
     <span class="menu-item">انواع خدمات تعمیرگاه</span>
     </a>
     </li>
-    <li class="@(currentBaseKindId== Convert.ToInt32(BaseKindEnum.TypesOfCarServiceCenters)?"active":"")">
-    <a asp-controller="Base" asp-action="Index" asp-route-basekindid="@Convert.ToInt32(BaseKindEnum.TypesOfCarServiceCenters)">
+    <li class="active">
+    <a asp-controller="Base" asp-action="Index">
     <i class="bx bx-file"></i>
     <span class="menu-item">انواع خدمات مراکز خدمات خودرو</span>
     </a>
     </li>
-    <li class="@(currentBaseKindId == Convert.ToInt32(BaseKindEnum.TypesOfAccessoryCenters)?"active":"")">
-    <a asp-controller="Base" asp-action="Index" asp-route-basekindid="@Convert.ToInt32(BaseKindEnum.TypesOfAccessoryCenters)">
+    <li class="active">
+    <a asp-controller="Base" asp-action="Index">
     <i class="bx bx-file"></i>
     <span class="menu-item">انواع خدمات یدکی</span>
     </a>

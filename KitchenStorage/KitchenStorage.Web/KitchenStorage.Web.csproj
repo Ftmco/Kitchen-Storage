@@ -13,4 +13,9 @@
 		</PackageReference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\KitchenStorage.Services.Abstraction\KitchenStorage.Services.Abstraction.csproj" />
+	  <ProjectReference Include="..\KitchenStorage.Services.Implementation\KitchenStorage.Services.Implementation.csproj" />
+	</ItemGroup>
+
 </Project>
