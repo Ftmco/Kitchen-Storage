@@ -23,13 +23,13 @@
             <span class="menu-item">غذا</span>
         </a>
         <ul class="menu-content" style="">
-            <li class="active">
+            <li>
                 <a asp-controller="Base" asp-action="Index">
                     <i class="bx bx-list-ol"></i>
                     <span class="menu-item">لیست غذا ها</span>
                 </a>
             </li>
-            <li class="active">
+            <li>
                 <a asp-controller="Base" asp-action="Index">
                     <i class="bx bx-window-open"></i>
                     <span class="menu-item">گزارش غذا</span>
@@ -44,19 +44,19 @@
             <span class="menu-item">انبار</span>
         </a>
         <ul class="menu-content" style="">
-            <li class="active">
-                <a asp-controller="Base" asp-action="Index">
+            <li class="@(currentController.ToString() == "Group"?"active":"")">
+                <a asp-controller="Group" asp-action="Index">
                     <i class="bx bx-grid"></i>
                     <span class="menu-item">گروه ها</span>
                 </a>
             </li>
-            <li class="active">
+            <li>
                 <a asp-controller="Base" asp-action="Index">
                     <i class="bx bx-menu-alt-right"></i>
                     <span class="menu-item">موجودی</span>
                 </a>
             </li>
-            <li class="active">
+            <li>
                 <a asp-controller="Base" asp-action="Index">
                     <i class="bx bx-window-open"></i>
                     <span class="menu-item">گزارش</span>
