@@ -1,6 +1,6 @@
 ﻿using KitchenStorage.Entities.Base;
 
-namespace KitchenStorage.Entities.Inventory
+namespace KitchenStorage.Entities
 {
     public record Inventory : BaseEntity
     {
