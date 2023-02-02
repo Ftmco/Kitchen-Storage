@@ -15,6 +15,9 @@ internal class GroupGet : IGroupGet
         await _groupQuery.DisposeAsync();
     }
 
+    public async Task<Group?> FindByIdAsync(Guid id)
+        => await _groupQuery.GetAsync(id);
+
     public async Task<IEnumerable<Group>> GroupsAsync()
         => await _groupQuery.GetAllAsync();
 }
