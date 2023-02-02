@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using KitchenStorage.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace KitchenStorage.DataBase.Context;
 
@@ -21,4 +22,6 @@ public class KitchenContext : DbContext
 		if (!optionsBuilder.IsConfigured)
 			optionsBuilder.UseSqlServer(ConnectionString);
 	}
+
+	public virtual DbSet<Group> Group { get; set; } = null!;
 }
