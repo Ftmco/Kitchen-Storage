@@ -1,8 +1,8 @@
 ﻿const showToast = (message) => {
     let x = document.getElementById("snackbar");
     x.innerHTML = message;
-    x.className = "show";
-    setTimeout(() => { x.className = x.className.replace("show", ""); }, 3000);
+    x.classList.add("snackbar-show")
+    setTimeout(() => { x.classList.remove("snackbar-show") }, 3000);
 }
 
 const showLoading = () => {
@@ -32,3 +32,11 @@ const postJsonApiCallOptions = (body) => ({
     },
     body: JSON.stringify(body)
 })
+
+const deleteJsonApiCallOptions = {
+    method: 'DELETE',
+    headers: {
+        'content-type': 'application/json'
+    },
+}
+
