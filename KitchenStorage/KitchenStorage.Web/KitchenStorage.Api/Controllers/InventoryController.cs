@@ -34,7 +34,7 @@ namespace KitchenStorage.Api.Controllers
             var upserInventory = await _action.UpsertAsync(upsert);
             return upserInventory.Match(Right: (inventory) => Ok(Success("دارایی با موفقیت ثبت شد", "", new
             {
-                Group = _viewModel.CreateInventoryViewModel(inventory),
+                Inventory = _viewModel.CreateInventoryViewModel(inventory),
             })),
                                 Left: (status) => InventoryActionResult(status));
         }
