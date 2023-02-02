@@ -23,12 +23,13 @@ public static class Injector
     static void AddBaseCudServices(this IServiceCollection services)
     {
         services.AddScoped<IBaseCud<Group>, BaseCud<Group>>();
+        services.AddScoped<IBaseCud<Inventory>, BaseCud<Inventory>>();
     }
 
     static void AddBaseQueryServices(this IServiceCollection services)
     {
         services.AddScoped<IBaseQuery<Group>, BaseQuery<Group>>();
-
+        services.AddScoped<IBaseQuery<Inventory>, BaseQuery<Inventory>>();
     }
 
     static void AddActionServices(this IServiceCollection services)
@@ -38,6 +39,14 @@ public static class Injector
         services.AddTransient<IGroupAction, GroupAction>();
         services.AddTransient<IGroupGet, GroupGet>();
         services.AddTransient<IGroupViewModel, GroupViewModelService>();
+
+        #endregion
+
+        #region Inventory
+
+        services.AddTransient<IInventoryAction, InventoryAction>();
+        services.AddTransient<IGetInventory, GetInventory>();
+        services.AddTransient<IInventoryViewModel, InventoryViewModelService>();
 
         #endregion
     }

@@ -8,8 +8,16 @@ public record Inventory : BaseEntity
     public string Name { get; set; }
 
     [Required]
+    public double Value { get; set; }
+
+    [Required]
     public byte Type { get; set; }
 
     [Required]
     public string Description { get; set; }
+}
+public enum InventoryType
+{
+    LogIn = 0,
+    LogOut = 1
 }
