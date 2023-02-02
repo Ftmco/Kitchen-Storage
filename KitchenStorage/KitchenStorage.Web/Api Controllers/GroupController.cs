@@ -31,15 +31,19 @@ public class GroupController : ControllerBase
     [HttpDelete("Delete")]
     public async Task<IActionResult> DeleteAsync(Guid id)
     {
-        return Ok();
+        var delete = await _action.DeleteAsync(id);
+        return delete.Match(Right: (group) => Ok(Success("گروه با موفقیت حذف شد", "", new
+        {
+            Group = _viewModel.CreateGroupViewModel(group),
+        })),
+                            Left: (status) => GroupActionResult(status));
     }
 
     [NonAction]
     OkObjectResult GroupActionResult(GroupActionStatus status) => status switch
     {
-        GroupActionStatus.Success => throw new NotImplementedException(),
-        GroupActionStatus.Failed => throw new NotImplementedException(),
-        GroupActionStatus.NotFound => throw new NotImplementedException(),
-        _ => throw new NotImplementedException(),
+        GroupActionStatus.Failed => Ok(ApiException()),
+        GroupActionStatus.NotFound => Ok(Faild(404, "گروه مورد نظر یافت نشد", "")),
+        _ => Ok(ApiException()),
     };
 }
