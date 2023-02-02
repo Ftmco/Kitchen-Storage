@@ -1,4 +1,6 @@
 ﻿
 const newGroup = () => {
-    console.log("new group")
+    fetch('/Group/Create', getHtmlApiCallOptions).then(async (res) => {
+        createModal('افزودن گروه جدید', await res.text())
+    })
 }
