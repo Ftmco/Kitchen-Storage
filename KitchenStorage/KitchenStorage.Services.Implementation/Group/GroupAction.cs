@@ -1,5 +1,5 @@
-﻿using KitchenStorage.ViewModel;
-using LanguageExt;
+﻿using LanguageExt;
+using Microsoft.EntityFrameworkCore;
 
 namespace KitchenStorage.Services.Implementation;
 
@@ -24,6 +24,17 @@ internal class GroupAction : IGroupAction
 
         return await _groupCud.InsertAsync(newGroup) ?
                     newGroup : GroupActionStatus.Failed;
+    }
+
+    public async Task<Either<GroupActionStatus, Group>> DeleteAsync(Guid id)
+    {
+        Group? group = await _groupQuery.GetAsync(id);
+        if (group is null)
+            return GroupActionStatus.NotFound;
+
+        group.Status = (byte)EntityState.Deleted;
+        return await _groupCud.UpdateAsync(group) ?
+                    group : GroupActionStatus.Failed;
     }
 
     public async ValueTask DisposeAsync()
