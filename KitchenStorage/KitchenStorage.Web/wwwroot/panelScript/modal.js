@@ -26,7 +26,7 @@ const createModal = () => {
 			</div>
 		</div>
 	</div>`
-    let modalsDiv = document.getElementById('modals')
+	var modalsDiv = document.getElementById('modals').innerHTML
     modalsDiv.innerHTML += modalHtml
 
     return id
