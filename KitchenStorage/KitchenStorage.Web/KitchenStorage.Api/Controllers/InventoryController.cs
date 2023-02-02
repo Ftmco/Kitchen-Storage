@@ -25,7 +25,7 @@ namespace KitchenStorage.Api.Controllers
         [HttpGet("Get")]
 
         public async Task<IActionResult> GetAsync()
-            => Ok(await _query.InventorysAsync());
+            => Ok(Success("", "", await _query.InventorysAsync());
 
 
         [HttpPost("Upsert")]
