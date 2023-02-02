@@ -2,8 +2,19 @@
 
 internal class GroupGet : IGroupGet
 {
-    public ValueTask DisposeAsync()
+    private readonly IBaseQuery<Group> _groupQuery;
+
+    public GroupGet(IBaseQuery<Group> groupQuery)
     {
-        throw new NotImplementedException();
+        _groupQuery = groupQuery;
     }
+
+    public async ValueTask DisposeAsync()
+    {
+        GC.SuppressFinalize(this);
+        await _groupQuery.DisposeAsync();
+    }
+
+    public async Task<IEnumerable<Group>> GroupsAsync()
+        => await _groupQuery.GetAllAsync();
 }

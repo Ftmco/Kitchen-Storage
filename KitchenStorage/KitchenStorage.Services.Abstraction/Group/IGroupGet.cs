@@ -2,4 +2,5 @@
 
 public interface IGroupGet : IAsyncDisposable
 {
+    Task<IEnumerable<Group>> GroupsAsync();
 }
