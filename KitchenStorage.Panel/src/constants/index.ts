@@ -15,13 +15,13 @@ export const navigationItems = [
                 id: 21,
                 title: 'غذا ها',
                 icon: 'mdi-food',
-                to: 'tabs/foods',
+                to: '/tabs/foods',
             },
             {
                 id: 22,
                 title: 'گزارش غذا',
                 icon: 'mdi-newspaper',
-                to: 'tabs/foods/report',
+                to: '/tabs/foods/report',
             }
         ]
     },

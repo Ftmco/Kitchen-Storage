@@ -38,6 +38,16 @@ const routes: Array<RouteConfig> = [
                     hasBack: true
                 }),
             },
+            {
+                path: 'foods',
+                name: 'Foods',
+                component: () => import("@/pages/home/FoodsPage.vue"),
+                meta: (route: Route) => ({
+                    title: 'غذا ها',
+                    route,
+                    hasBack: true
+                }),
+            },
         ]
     },
 ];
