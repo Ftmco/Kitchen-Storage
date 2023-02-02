@@ -3,12 +3,11 @@
 internal class GroupViewModelService : IGroupViewModel
 {
     public GroupViewModel CreateGroupViewModel(Group group)
-    {
-        throw new NotImplementedException();
-    }
+        => new(Id: group.Id,
+            Name: group.Name,
+            CreateDate: group.CreateDate.ToShamsi(),
+            Status: group.Status);
 
     public IEnumerable<GroupViewModel> CreateGroupViewModel(IEnumerable<Group> groups)
-    {
-        throw new NotImplementedException();
-    }
+        => groups.Select(CreateGroupViewModel);
 }
