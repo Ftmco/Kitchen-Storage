@@ -1,0 +1,31 @@
+﻿@model GroupViewModel
+
+@{
+    Layout = null;
+}
+
+@if (Model is null)
+{
+    <div class="col-md-12">
+        <div class="form-group">
+            <h4 class="text-danger">گروه مورد نظر یافت نشد</h4>
+        </div>
+    </div>
+}
+else
+{
+    <div class="col-md-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">نام گروه</label>
+                <input asp-for="Name" id="group-name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+          
+            <div class="form-group">
+                <input onclick="updateGroup('@Model.Id')" value="ویرایش" class="btn btn-primary btn-block" />
+            </div>
+        </form>
+    </div>
+}
