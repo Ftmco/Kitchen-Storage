@@ -1,6 +1,9 @@
 ﻿namespace KitchenStorage.ViewModel;
 
-public record GroupViewModel(Guid Id, string Name, string CreateDate, byte Status);
+public record GroupViewModel(Guid Id,
+    string Name,
+    string CreateDate,
+    byte Status);
 
 public record UpsertGroupViewModel(Guid? Id, string Name);
 
