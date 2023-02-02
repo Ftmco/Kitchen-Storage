@@ -1,5 +1,3 @@
-export const baseUrl = "https://localhost:7017/"
-
 export const navigationItems = [
     {
         id: 0,
@@ -10,19 +8,42 @@ export const navigationItems = [
     {
         id: 2,
         title: 'غذا',
-        icon: 'mdi-group',
-        to: '/tabs/groups',
+        icon: 'mdi-food',
         active: false,
+        children: [
+            {
+                id: 21,
+                title: 'غذا ها',
+                icon: 'mdi-food',
+                to: 'tabs/foods',
+            },
+            {
+                id: 22,
+                title: 'گزارش غذا',
+                icon: 'mdi-newspaper',
+                to: 'tabs/foods/report',
+            }
+        ]
     },
     {
         id: 3,
         title: 'انبار',
-        icon: 'mdi-group',
-        to: '/tabs/groups',
-        children:[
-
-        ],
+        icon: 'mdi-store',
         active: false,
+        children: [
+            {
+                id: 31,
+                title: 'گروه ها',
+                icon: 'mdi-group',
+                to: '/tabs/groups'
+            },
+            {
+                id: 32,
+                title: 'موجودی',
+                icon: 'mdi-list-box-outline',
+                to: '/tabs/inventory'
+            }
+        ],
     },
 ]
 
@@ -39,5 +60,5 @@ export const messages = {
 export const rules = {
     require: (value: string) => !!value || 'Required.',
     password: (value: string) => !!value && (value.length > 5 || 'Password required more than 6 characters'),
-    requireSelect:(items:any)=> items.length > 0 || 'Required.',
+    requireSelect: (items: any) => items.length > 0 || 'Required.',
 }
