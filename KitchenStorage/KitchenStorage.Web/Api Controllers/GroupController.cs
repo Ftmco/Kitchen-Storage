@@ -9,16 +9,22 @@ public class GroupController : ControllerBase
 {
     private readonly IGroupAction _action;
 
-    public GroupController(IGroupAction action)
+    private readonly IGroupViewModel _viewModel;
+
+    public GroupController(IGroupAction action, IGroupViewModel viewModel)
     {
         _action = action;
+        _viewModel = viewModel;
     }
 
     [HttpPost("Upsert")]
     public async Task<IActionResult> UpsertAsync(UpsertGroupViewModel upsert)
     {
         var upsertGroup = await _action.UpsertAsync(upsert);
-        return upsertGroup.Match(Right: (group) => Ok(Success("گروه با موفقیت ثبت شد", "", new { })),
+        return upsertGroup.Match(Right: (group) => Ok(Success("گروه با موفقیت ثبت شد", "", new
+        {
+            Group = _viewModel.CreateGroupViewModel(group),
+        })),
                             Left: (status) => GroupActionResult(status));
     }
 
