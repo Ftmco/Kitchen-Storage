@@ -26,10 +26,29 @@
     <link href="~/css/themes/semi-dark-layout.css" rel="stylesheet" />
     <link href="~/css/core/menu/menu-types/vertical-menu.css" rel="stylesheet" />
 
+    <link href="~/panelScript/app.css" rel="stylesheet" />
+
     <script src="~/vendors/js/vendors.min.js"></script>
 
 </head>
-<body class="vertical-layout vertical-menu-modern boxicon-layout 2-columns menu-expanded pace-done navbar-sticky semi-dark-layout footer-static" data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
+<body onload="hideLoading()" class="vertical-layout vertical-menu-modern boxicon-layout 2-columns menu-expanded pace-done navbar-sticky semi-dark-layout footer-static" data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
+
+    <!--Loader-->
+    <div class="ulLoader" id="loader">
+        <ul class="ulLoaderul" id="ulLoaderul">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <!--End Loader-->
+
+
     <div class="header-navbar-shadow"></div>
     <nav class="header-navbar main-header-navbar navbar-expand-lg navbar navbar-with-menu fixed-top">
         <div class="navbar-wrapper">
@@ -41,7 +60,7 @@
                                 <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ficon bx bx-menu"></i></a>
                             </li>
                         </ul>
-                       
+
                     </div>
                     <ul class="nav navbar-nav float-right">
                         <li class="nav-item d-none d-lg-block">
@@ -84,6 +103,33 @@
     <div class="drag-target"></div>
     <partial name="_FooterPartial" />
 
+
+    <!--Modal-->
+
+    <div id="modals"></div>
+
+  @*  <div id="id01" class="w3-modal modal-container" style="backdrop-filter: blur(5px);z-index:1400">
+        <div id="modalmain" class="w3-modal-content w3-card-4 w3-animate-zoom mymodal">
+            <div id="modalmainheader" class="w3-center">
+                <br>
+                <span onclick="closeMainModal()" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
+                <h5 id="Title"></h5>
+            </div>
+            <div id="modalBody"> </div>
+
+            <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+                <button onclick="closeMainModal()" type="button" class="btn btn-dark btn-block">بازگشت</button>
+            </div>
+        </div>
+    </div>*@
+
+    <!--Eend Modal-->
+
+    <!--Toast-->
+    <div id="snackbar"></div>
+    <!--End Toast-->
+
+
     <script src="~/vendors/js/extensions/sweetalert2.all.min.js"></script>
     <script src="~/vendors/js/forms/select/select2.full.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
@@ -110,8 +156,11 @@
     <script src="~/js/scripts/pickers/dateTime/pick-a-datetime.js"></script>
     <script src="~/js/scripts/navs/navs.js"></script>
     <script src="~/js/main.js" asp-append-version="true"></script>
+
+    <!-- Scripts That We Write -->
     <script src="~/panelScript/modal.js"></script>
     <script src="~/panelScript/group.js"></script>
+    <script src="~/panelScript/main.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
