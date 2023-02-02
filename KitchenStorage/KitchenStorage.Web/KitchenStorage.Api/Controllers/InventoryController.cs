@@ -43,9 +43,9 @@ namespace KitchenStorage.Api.Controllers
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
             var delete = await _action.DeleteAsync(id);
-            return delete.Match(Right: (group) => Ok(Success("دارایی با موفقیت حذف شد", "", new
+            return delete.Match(Right: (inventory) => Ok(Success("دارایی با موفقیت حذف شد", "", new
             {
-                Group = _viewModel.CreateInventoryViewModel(group),
+                Inventory = _viewModel.CreateInventoryViewModel(inventory),
             })),
                                 Left: (status) => InventoryActionResult(status));
         }
