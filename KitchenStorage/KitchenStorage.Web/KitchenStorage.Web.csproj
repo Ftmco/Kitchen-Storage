@@ -17,6 +17,7 @@
 	  <ProjectReference Include="..\KitchenStorage.Entities\KitchenStorage.Entities.csproj" />
 	  <ProjectReference Include="..\KitchenStorage.Services.Abstraction\KitchenStorage.Services.Abstraction.csproj" />
 	  <ProjectReference Include="..\KitchenStorage.Services.Implementation\KitchenStorage.Services.Implementation.csproj" />
+	  <ProjectReference Include="..\KitchenStorage.ViewModel\KitchenStorage.ViewModel.csproj" />
 	</ItemGroup>
 
 </Project>
