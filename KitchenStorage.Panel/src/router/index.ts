@@ -20,6 +20,15 @@ const routes: Array<RouteConfig> = [
         component: () => import("@/pages/home/TabsPage.vue"),
         children: [
             {
+                path: 'home',
+                name: 'Home',
+                component: () => import("@/pages/home/HomePage.vue"),
+                meta: (route: Route) => ({
+                    title: 'پنل مدیریت انبار آشپزخانه',
+                    route
+                })
+            },
+            {
                 path: 'groups',
                 name: 'Groups',
                 component: () => import("@/pages/home/GroupsPage.vue"),
