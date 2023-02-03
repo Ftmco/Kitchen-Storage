@@ -13,4 +13,9 @@
         Failed = 1,
         NotFound = 2
     }
+    public enum InventoryType
+    {
+        LogIn = 0,
+        LogOut = 1
+    }
 }

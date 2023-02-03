@@ -24,5 +24,11 @@ public class KitchenContext : DbContext
     }
 
     public virtual DbSet<Group> Group { get; set; } = null!;
-    public virtual DbSet<Inventory> Inventories { get; set; }
+    public virtual DbSet<Inventory> Inventories { get; set; } = null!;
+    public virtual DbSet<Food> Foods { get; set; } = null!;
+    public virtual DbSet<Norm> Norms { get; set; } = null!;
+    public virtual DbSet<InventoryPartition> InventoryPartitions { get; set; } = null!;
+    public virtual DbSet<Note> Notes { get; set; } = null!;
+    public virtual DbSet<FoodHistory> FoodHistories { get; set; } = null!;
+
 }

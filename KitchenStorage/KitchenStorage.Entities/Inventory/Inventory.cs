@@ -16,8 +16,3 @@ public record Inventory : BaseEntity
     [Required]
     public string Description { get; set; }
 }
-public enum InventoryType
-{
-    LogIn = 0,
-    LogOut = 1
-}
