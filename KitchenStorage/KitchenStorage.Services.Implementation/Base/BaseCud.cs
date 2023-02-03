@@ -17,6 +17,7 @@ internal class BaseCud<TEntity> : IBaseCud<TEntity> where TEntity : class
         _dbSet = _context.Set<TEntity>();
     }
 
+
     public async Task<bool> DeleteAsync(IEnumerable<TEntity> entities)
     {
         try
@@ -49,6 +50,12 @@ internal class BaseCud<TEntity> : IBaseCud<TEntity> where TEntity : class
 
     public async Task<bool> DeleteAsync(object id)
         => await DeleteAsync(await _dbSet.FindAsync(id));
+
+    public Task<int> CountAsync()
+        => _dbSet.CountAsync();
+
+    public Task<int> CountAsync(Expression<Func<TEntity, bool>> count)
+        => _dbSet.CountAsync(count);
 
     public async ValueTask DisposeAsync()
     {
