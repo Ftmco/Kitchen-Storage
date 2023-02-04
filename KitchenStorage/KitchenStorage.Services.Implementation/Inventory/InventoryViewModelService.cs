@@ -8,7 +8,7 @@ namespace KitchenStorage.Services.Implementation
              => new(Id: inventory.Id,
                  Name: inventory.Name,
                  Value: inventory.Value,
-                 Type: inventory.Type,
+                 TypeId: inventory.TypeId,
                  Description: inventory.Description,
                  CreateDate: inventory.CreateDate.ToShamsi());
 

@@ -22,7 +22,7 @@ namespace KitchenStorage.Services.Implementation
             {
                 Name = upsert.Name,
                 Value = upsert.Value,
-                Type = upsert.Type,
+                TypeId = upsert.TypeId,
                 Description = upsert.Description,
             };
 
@@ -38,7 +38,7 @@ namespace KitchenStorage.Services.Implementation
 
             inventory.Name = upsert.Name;
             inventory.Value = upsert.Value;
-            inventory.Type = upsert.Type;
+            inventory.TypeId = upsert.TypeId;
             inventory.Description = upsert.Description;
 
             return await _inventoryAction.UpdateAsync(inventory) ?

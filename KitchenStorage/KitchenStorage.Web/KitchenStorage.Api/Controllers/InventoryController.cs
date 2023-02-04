@@ -9,7 +9,6 @@ namespace KitchenStorage.Api.Controllers
     {
         private readonly IGetInventory _query;
         private readonly IInventoryAction _action;
-
         private readonly IInventoryViewModel _viewModel;
 
         public InventoryController

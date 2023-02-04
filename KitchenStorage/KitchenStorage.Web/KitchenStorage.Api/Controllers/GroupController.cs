@@ -9,7 +9,6 @@ public class GroupController : ControllerBase
 {
     private readonly IGroupAction _action;
     private readonly IGroupGet _query;
-
     private readonly IGroupViewModel _viewModel;
 
     public GroupController
