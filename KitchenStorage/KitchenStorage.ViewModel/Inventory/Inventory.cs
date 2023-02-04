@@ -5,7 +5,7 @@
         (Guid? Id, string Name, double Value, int TypeId, string Description, string CreateDate);
 
     public record UpsertInventoryViewModel
-        (Guid? Id, string Name, double Value, int TypeId, string Description);
+        (Guid? Id, string Name, double Value, double AlarmValue, Guid TypeId, string Description);
 
     public enum InventoryActionStatus
     {
