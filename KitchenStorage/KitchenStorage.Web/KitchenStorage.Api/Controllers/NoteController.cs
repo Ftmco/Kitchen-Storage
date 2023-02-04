@@ -21,18 +21,13 @@ namespace KitchenStorage.Api.Controllers
             _viewModel = noteViewModel;
         }
 
-        [HttpGet("GetPaginated")]
+        [HttpGet("Notes")]
 
-        public async Task<IActionResult> GetAsync(int page, int pageCount)
+        public async Task<IActionResult> GetNotesAsync(int page, int count)
         {
-            var result = await _query.NotesAsync(page, pageCount);
+            var result = await _query.NotesAsync(page, count);
             return Ok(Success("", "", result));
         }
-
-        [HttpGet("Get")]
-        public async Task<IActionResult> GetAsync()
-            => Ok(Success("", "", await _query.NotesAsync()));
-
 
         [HttpPost("Upsert")]
         public async Task<IActionResult> UpsertAsync(UpsertNoteViewModel upsert)
@@ -47,20 +42,14 @@ namespace KitchenStorage.Api.Controllers
 
         [HttpDelete("Delete")]
         public async Task<IActionResult> DeleteAsync(Guid id)
-        {
-            var delete = await _action.DeleteAsync(id);
-            return delete.Match(Right: (note) => Ok(Success("یادداشت با موفقیت حذف شد", "", new
-            {
-                Note = _viewModel.CreateNoteViewModel(note),
-            })),
-                                Left: (status) => NoteActionResult(status));
-        }
+            => NoteActionResult(await _action.DeleteAsync(id));
 
         [NonAction]
         OkObjectResult NoteActionResult(NoteActionStatus status) => status switch
         {
             NoteActionStatus.Failed => Ok(ApiException()),
             NoteActionStatus.NotFound => Ok(Faild(404, "یادداشت مورد نظر یافت نشد", "")),
+            NoteActionStatus.Success => Ok(Success("علمیات با موفقیت انجام شد", "", new { })),
             _ => Ok(ApiException()),
         };
     }

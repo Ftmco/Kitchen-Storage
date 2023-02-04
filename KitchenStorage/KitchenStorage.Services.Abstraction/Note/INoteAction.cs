@@ -8,6 +8,6 @@
 
         Task<Either<NoteActionStatus, Note>> UpdateAsync(UpsertNoteViewModel upsert);
 
-        Task<Either<NoteActionStatus, Note>> DeleteAsync(Guid id);
+        Task<NoteActionStatus> DeleteAsync(Guid id);
     }
 }
