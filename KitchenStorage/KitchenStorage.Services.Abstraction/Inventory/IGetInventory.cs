@@ -1,9 +1,7 @@
-﻿namespace KitchenStorage.Services.Abstraction
-{
-    public interface IGetInventory 
-    {
-        Task<IEnumerable<Inventory>> InventorysAsync();
+﻿namespace KitchenStorage.Services.Abstraction;
 
-        Task<Inventory?> FindByIdAsync(Guid id);
-    }
+public interface IGetInventory
+{
+    Task<PaginationResult<IEnumerable<Inventory>>> InventorysAsync(int page, int count);
+
 }
