@@ -8,6 +8,9 @@ public record Inventory : BaseEntity
     public string Name { get; set; }
 
     [Required]
+    public double Value { get; set; }
+
+    [Required]
     public byte Type { get; set; }
 
     [Required]

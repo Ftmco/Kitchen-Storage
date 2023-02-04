@@ -7,7 +7,10 @@ public record Food : BaseEntity
     [Required]
     public string Name { get; set; }
 
-    // Realtions
+    [Required]
 
-    public List<Norm> Norms { get; set; }
+    public byte Type { get; set; }
+
+    // Realtions
+    public virtual List<Norm> Norms { get; set; }
 }
