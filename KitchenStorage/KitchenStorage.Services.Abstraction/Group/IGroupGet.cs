@@ -2,7 +2,5 @@
 
 public interface IGroupGet : IAsyncDisposable
 {
-    Task<IEnumerable<Group>> GroupsAsync();
-
-    Task<Group?> FindByIdAsync(Guid id);
+    Task<PaginationResult<IEnumerable<Group>>> GroupsAsync(int page, int count);
 }
