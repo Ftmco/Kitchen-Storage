@@ -26,7 +26,11 @@ namespace KitchenStorage.Api.Controllers
         public async Task<IActionResult> GetNotesAsync(int page, int count)
         {
             var result = await _query.NotesAsync(page, count);
-            return Ok(Success("", "", result));
+            return Ok(Success("", "", new
+            {
+                result.PageCount,
+                Notes = _viewModel.CreateNoteViewModel(result.Result)
+            }));
         }
 
         [HttpPost("Upsert")]
