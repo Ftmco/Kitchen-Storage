@@ -15,9 +15,11 @@ internal class GroupGet : IGroupGet
         await _groupQuery.DisposeAsync();
     }
 
-    public async Task<Group?> FindByIdAsync(Guid id)
-        => await _groupQuery.GetAsync(id);
+    public async Task<PaginationResult<IEnumerable<Group>>> GroupsAsync(int page, int count)
+    {
+        var groups = await _groupQuery.GetAllAsync(page, count);
+        var groupsCount = await _groupQuery.CountAsync();
 
-    public async Task<IEnumerable<Group>> GroupsAsync()
-        => await _groupQuery.GetAllAsync();
+        return groups.GetPaginationResult(groupsCount.PageCount(count));
+    }
 }
