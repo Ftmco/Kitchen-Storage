@@ -8,13 +8,24 @@ namespace KitchenStorage.Web.ApiControllers;
 public class GroupController : ControllerBase
 {
     private readonly IGroupAction _action;
+    private readonly IGroupGet _query;
 
     private readonly IGroupViewModel _viewModel;
 
-    public GroupController(IGroupAction action, IGroupViewModel viewModel)
+    public GroupController
+        (IGroupAction action,
+        IGroupViewModel viewModel,
+        IGroupGet query)
     {
         _action = action;
         _viewModel = viewModel;
+        _query = query;
+    }
+
+    [HttpGet("Get")]
+    public async Task<IActionResult> GetAsync()
+    {
+        return Ok(Success("", "", await _query.GroupsAsync()));
     }
 
     [HttpPost("Upsert")]
