@@ -1,5 +1,6 @@
 ﻿using KitchenStorage.DataBase.Context;
 using KitchenStorage.Services.Implementation.Base;
+using KitchenStorage.Services.Implementation.MeasurmentType;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,7 @@ public static class Injector
     {
         services.AddScoped<IBaseCud<Group>, BaseCud<Group>>();
         services.AddScoped<IBaseCud<Inventory>, BaseCud<Inventory>>();
+        services.AddScoped<IBaseCud<MeasurementType>, BaseCud<MeasurementType>>();
         services.AddScoped<IBaseCud<Note>, BaseCud<Note>>();
         services.AddScoped<IBaseCud<Food>, BaseCud<Food>>();
         services.AddScoped<IBaseCud<Norm>, BaseCud<Norm>>();
@@ -33,6 +35,7 @@ public static class Injector
     {
         services.AddScoped<IBaseQuery<Group>, BaseQuery<Group>>();
         services.AddScoped<IBaseQuery<Inventory>, BaseQuery<Inventory>>();
+        services.AddScoped<IBaseQuery<MeasurementType>, BaseQuery<MeasurementType>>();
         services.AddScoped<IBaseQuery<Note>, BaseQuery<Note>>();
         services.AddScoped<IBaseQuery<Food>, BaseQuery<Food>>();
         services.AddScoped<IBaseQuery<Norm>, BaseQuery<Norm>>();
@@ -54,6 +57,13 @@ public static class Injector
         services.AddTransient<IGetInventory, GetInventory>();
         services.AddTransient<IInventoryViewModel, InventoryViewModelService>();
 
+        #endregion
+
+        #region MeasurmentType
+
+        services.AddTransient<IMeasurementTypeAction, MeasurementTypeAction>();
+        services.AddTransient<IGetMeasurementType, GetMeasurementType>();
+        services.AddTransient<IMeasurementTypeViewModel, MeasurementTypeViewModelService>();
         #endregion
 
         #region Note
