@@ -10,6 +10,7 @@ namespace KitchenStorage.Services.Implementation
                  Value: inventory.Value,
                  TypeId: inventory.TypeId,
                  Description: inventory.Description,
+                 Status: inventory.Status,
                  CreateDate: inventory.CreateDate.ToShamsi());
 
         public IEnumerable<InventoryViewModel> CreateInventoryViewModel(IEnumerable<Inventory> inventories)

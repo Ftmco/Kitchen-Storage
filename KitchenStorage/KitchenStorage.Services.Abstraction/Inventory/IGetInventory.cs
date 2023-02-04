@@ -1,6 +1,6 @@
 ﻿namespace KitchenStorage.Services.Abstraction
 {
-    public interface IGetInventory 
+    public interface IGetInventory
     {
         Task<IEnumerable<Inventory>> InventorysAsync();
 

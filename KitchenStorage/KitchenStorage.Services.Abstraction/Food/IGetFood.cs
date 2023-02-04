@@ -2,5 +2,7 @@
 {
     public interface IGetFood
     {
+        Task<IEnumerable<Food>> FoodsAsync();
+        Task<Food?> FindByIdAsync(Guid id);
     }
 }

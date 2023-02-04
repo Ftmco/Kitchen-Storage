@@ -2,7 +2,7 @@
 {
 
     public record InventoryViewModel
-        (Guid? Id, string Name, double Value, int TypeId, string Description, string CreateDate);
+        (Guid? Id, string Name, double Value, int TypeId, string Description, byte Status, string CreateDate);
 
     public record UpsertInventoryViewModel
         (Guid? Id, string Name, double Value, int TypeId, string Description);

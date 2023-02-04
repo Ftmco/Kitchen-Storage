@@ -1,7 +1,7 @@
 ﻿namespace KitchenStorage.ViewModel
 {
     public record NoteViewModel
-        (Guid? Id, string Title, byte Importance, string Description,string CreateDate);
+        (Guid? Id, string Title, byte Importance, string Description, byte Status, string CreateDate);
 
     public record UpsertNoteViewModel
         (Guid? Id, string Title, byte Importance, string Description);
