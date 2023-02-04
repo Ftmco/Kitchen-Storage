@@ -8,6 +8,6 @@
 
         Task<Either<MeasurementTypeActionStatus, MeasurementType>> UpdateAsync(UpsertMeasurementTypeViewModel upsert);
 
-        Task<Either<MeasurementTypeActionStatus, MeasurementType>> DeleteAsync(Guid id);
+        Task<MeasurementTypeActionStatus> DeleteAsync(Guid id);
     }
 }

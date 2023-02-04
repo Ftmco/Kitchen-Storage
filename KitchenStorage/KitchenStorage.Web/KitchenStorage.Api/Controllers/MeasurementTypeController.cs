@@ -45,20 +45,14 @@ public class MeasurementTypeController : ControllerBase
 
     [HttpDelete("Delete")]
     public async Task<IActionResult> DeleteAsync(Guid id)
-    {
-        var delete = await _action.DeleteAsync(id);
-        return delete.Match(Right: (measurement) => Ok(Success("نوع اندازه گیری با موفقیت حذف شد", "", new
-        {
-            Measurement = _viewModel.CreateMeasurementTypeViewModel(measurement),
-        })),
-                            Left: (status) => MeasurementActionResult(status));
-    }
+            => MeasurementActionResult(await _action.DeleteAsync(id));
 
     [NonAction]
     OkObjectResult MeasurementActionResult(MeasurementTypeActionStatus status) => status switch
     {
         MeasurementTypeActionStatus.Failed => Ok(ApiException()),
         MeasurementTypeActionStatus.NotFound => Ok(Faild(404, "نوع اندازگیری مورد نظر یافت نشد", "")),
+        MeasurementTypeActionStatus.Success => Ok(Success("عملیات مورد نظر با موفقیت انجام شد", "", new { })),
         _ => Ok(ApiException()),
     };
 }
