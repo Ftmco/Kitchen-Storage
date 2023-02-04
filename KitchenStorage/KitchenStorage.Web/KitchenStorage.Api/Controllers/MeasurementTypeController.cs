@@ -22,9 +22,14 @@ public class MeasurementTypeController : ControllerBase
     }
 
     [HttpGet("Types")]
-    public async Task<IActionResult> GetTypesAsync()
+    public async Task<IActionResult> GetTypesAsync(int page, int count)
     {
-        return Ok(Success("", "", await _query.TypesAsync()));
+        var types = await _query.TypesAsync(page, count);
+        return Ok(Success("", "", new
+        {
+            types.PageCount,
+            Types = _viewModel.CreateMeasurementTypeViewModel(types.Result),
+        }));
     }
 
     [HttpPost("Upsert")]

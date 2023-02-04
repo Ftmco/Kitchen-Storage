@@ -2,7 +2,7 @@
 {
     public interface IGetMeasurementType
     {
-        Task<IEnumerable<MeasurementType>> TypesAsync();
-        Task<MeasurementType?> FindByIdAsync(Guid id);
+        Task<PaginationResult<IEnumerable<MeasurementType>>> TypesAsync(int page, int count);
+
     }
 }
