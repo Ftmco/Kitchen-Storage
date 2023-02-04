@@ -11,7 +11,8 @@ public record Inventory : BaseEntity
     public double Value { get; set; }
 
     [Required]
-    public byte Type { get; set; }
+    public int TypeId { get; set; }
+    public virtual MeasurementType MeasurementType { get; set; }
 
     [Required]
     public string Description { get; set; }
