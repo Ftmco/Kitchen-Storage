@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace KitchenStorage.Services.Implementation
+﻿namespace KitchenStorage.Services.Implementation
 {
     public class InventoryViewModelService : IInventoryViewModel
     {

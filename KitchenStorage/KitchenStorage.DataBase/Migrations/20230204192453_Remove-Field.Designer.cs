@@ -4,6 +4,7 @@ using KitchenStorage.DataBase.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KitchenStorage.DataBase.Migrations
 {
     [DbContext(typeof(KitchenContext))]
-    partial class KitchenContextModelSnapshot : ModelSnapshot
+    [Migration("20230204192453_Remove-Field")]
+    partial class RemoveField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,9 +113,6 @@ namespace KitchenStorage.DataBase.Migrations
                     b.Property<Guid?>("GroupId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("MeasurementTypeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -121,17 +120,12 @@ namespace KitchenStorage.DataBase.Migrations
                     b.Property<byte>("Status")
                         .HasColumnType("tinyint");
 
-                    b.Property<Guid>("TypeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<double>("Value")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
 
                     b.HasIndex("GroupId");
-
-                    b.HasIndex("MeasurementTypeId");
 
                     b.ToTable("Inventories");
                 });
@@ -264,12 +258,6 @@ namespace KitchenStorage.DataBase.Migrations
                     b.HasOne("KitchenStorage.Entities.Group", null)
                         .WithMany("Inventories")
                         .HasForeignKey("GroupId");
-
-                    b.HasOne("KitchenStorage.Entities.MeasurementType", "MeasurementType")
-                        .WithMany()
-                        .HasForeignKey("MeasurementTypeId");
-
-                    b.Navigation("MeasurementType");
                 });
 
             modelBuilder.Entity("KitchenStorage.Entities.InventoryPartition", b =>

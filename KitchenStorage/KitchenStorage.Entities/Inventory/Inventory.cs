@@ -11,7 +11,7 @@ public record Inventory : BaseEntity
     public double Value { get; set; }
 
     [Required]
-    public double AlarmValue { get; set; }
+    public double AlertLimit { get; set; }
 
     [Required]
     public Guid TypeId { get; set; }
