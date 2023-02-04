@@ -22,10 +22,15 @@ public class GroupController : ControllerBase
         _query = query;
     }
 
-    [HttpGet("Get")]
-    public async Task<IActionResult> GetAsync()
+    [HttpGet("Groups")]
+    public async Task<IActionResult> GetGroupsAsync(int page, int count)
     {
-        return Ok(Success("", "", await _query.GroupsAsync()));
+        var groups = await _query.GroupsAsync(page, count);
+        return Ok(Success("", "", new
+        {
+            groups.PageCount,
+            Groups = _viewModel.CreateGroupViewModel(groups.Result),
+        }));
     }
 
     [HttpPost("Upsert")]
