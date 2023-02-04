@@ -6,7 +6,8 @@
              => new(Id: inventory.Id,
                  Name: inventory.Name,
                  Value: inventory.Value,
-                 TypeId: inventory.TypeId,
+                 AlertLimit: inventory.AlertLimit,
+                 Type: null,
                  Description: inventory.Description,
                  CreateDate: inventory.CreateDate.ToShamsi());
 

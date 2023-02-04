@@ -1,10 +1,10 @@
 ﻿namespace KitchenStorage.ViewModel;
 
 public record InventoryViewModel
-    (Guid? Id, string Name, double Value, Guid TypeId, string Description, string CreateDate);
+    (Guid? Id, string Name, double Value, double AlertLimit, string Description, string CreateDate, MeasurementTypeViewModel? Type);
 
 public record UpsertInventoryViewModel
-    (Guid? Id, string Name, double Value, double AlarmValue, Guid TypeId, string Description);
+    (Guid? Id, string Name, double Value, double AlertLimit, Guid TypeId, string Description);
 
 public enum InventoryActionStatus
 {
