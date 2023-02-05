@@ -7,9 +7,8 @@
                  Name: inventory.Name,
                  Value: inventory.Value,
                  AlertLimit: inventory.AlertLimit,
-                 Type: null,
+                 TypeId: inventory.TypeId,
                  Description: inventory.Description,
-                 Status: inventory.Status,
                  CreateDate: inventory.CreateDate.ToShamsi());
 
         public IEnumerable<InventoryViewModel> CreateInventoryViewModel(IEnumerable<Inventory> inventories)

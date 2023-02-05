@@ -16,4 +16,7 @@ public class GetInventory : IGetInventory
 
         return inventory.GetPaginationResult(inventoryCount.PageCount(count));
     }
+
+    public async Task<IEnumerable<Inventory>> InventorysAsync()
+        => await _inventoryQuery.GetAllAsync();
 }
