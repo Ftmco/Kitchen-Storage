@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KitchenStorage.Services.Implementation.MeasurmentType
+﻿namespace KitchenStorage.Services.Implementation.MeasurmentType
 {
     public class GetMeasurementType : IGetMeasurementType
     {
@@ -15,10 +9,12 @@ namespace KitchenStorage.Services.Implementation.MeasurmentType
             _query = query;
         }
 
-        public async Task<MeasurementType?> FindByIdAsync(Guid id)
-            => await _query.GetAsync(id);
+        public async Task<PaginationResult<IEnumerable<MeasurementType>>> TypesAsync(int page, int count)
+        {
+            IEnumerable<MeasurementType> types = await _query.GetAllAsync(page, count);
+            var typesCount = await _query.CountAsync();
 
-        public async Task<IEnumerable<MeasurementType>> TypesAsync()
-            => await _query.GetAllAsync();
+            return types.GetPaginationResult(typesCount.PageCount(count));
+        }
     }
 }

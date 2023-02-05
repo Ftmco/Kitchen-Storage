@@ -23,22 +23,24 @@ public static class Injector
 
     static void AddBaseCudServices(this IServiceCollection services)
     {
-        services.AddScoped<IBaseCud<Group>, BaseCud<Group>>();
-        services.AddScoped<IBaseCud<Inventory>, BaseCud<Inventory>>();
-        services.AddScoped<IBaseCud<MeasurementType>, BaseCud<MeasurementType>>();
-        services.AddScoped<IBaseCud<Note>, BaseCud<Note>>();
-        services.AddScoped<IBaseCud<Food>, BaseCud<Food>>();
-        services.AddScoped<IBaseCud<Norm>, BaseCud<Norm>>();
+        services.AddScoped(typeof(IBaseCud<>), typeof(BaseCud<>));
+        //services.AddScoped<IBaseCud<Group>, BaseCud<Group>>();
+        //services.AddScoped<IBaseCud<Inventory>, BaseCud<Inventory>>();
+        //services.AddScoped<IBaseCud<MeasurementType>, BaseCud<MeasurementType>>();
+        //services.AddScoped<IBaseCud<Note>, BaseCud<Note>>();
+        //services.AddScoped<IBaseCud<Food>, BaseCud<Food>>();
+        //services.AddScoped<IBaseCud<Norm>, BaseCud<Norm>>();
     }
 
     static void AddBaseQueryServices(this IServiceCollection services)
     {
-        services.AddScoped<IBaseQuery<Group>, BaseQuery<Group>>();
-        services.AddScoped<IBaseQuery<Inventory>, BaseQuery<Inventory>>();
-        services.AddScoped<IBaseQuery<MeasurementType>, BaseQuery<MeasurementType>>();
-        services.AddScoped<IBaseQuery<Note>, BaseQuery<Note>>();
-        services.AddScoped<IBaseQuery<Food>, BaseQuery<Food>>();
-        services.AddScoped<IBaseQuery<Norm>, BaseQuery<Norm>>();
+        services.AddScoped(typeof(IBaseQuery<>), typeof(BaseQuery<>));
+        //services.AddScoped<IBaseQuery<Group>, BaseQuery<Group>>();
+        //services.AddScoped<IBaseQuery<Inventory>, BaseQuery<Inventory>>();
+        //services.AddScoped<IBaseQuery<MeasurementType>, BaseQuery<MeasurementType>>();
+        //services.AddScoped<IBaseQuery<Note>, BaseQuery<Note>>();
+        //services.AddScoped<IBaseQuery<Food>, BaseQuery<Food>>();
+        //services.AddScoped<IBaseQuery<Norm>, BaseQuery<Norm>>();
     }
 
     static void AddActionServices(this IServiceCollection services)

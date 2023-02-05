@@ -21,10 +21,17 @@ namespace KitchenStorage.Api.Controllers
             _query = query;
         }
 
-        [HttpGet("Get")]
+        [HttpGet("Inventory")]
 
-        public async Task<IActionResult> GetAsync()
-            => Ok(Success("", "", await _query.InventorysAsync()));
+        public async Task<IActionResult> GetInventoryAsync(int page, int count)
+        {
+            var inventory = await _query.InventorysAsync(page, count);
+            return Ok(Success("", "", new
+            {
+                inventory.PageCount,
+                Inventory = _viewModel.CreateInventoryViewModel(inventory.Result),
+            }));
+        }
 
 
         [HttpPost("Upsert")]

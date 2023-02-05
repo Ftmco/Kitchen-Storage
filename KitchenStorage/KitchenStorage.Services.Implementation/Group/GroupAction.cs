@@ -19,7 +19,8 @@ internal class GroupAction : IGroupAction
     {
         Group newGroup = new()
         {
-            Name = upsert.Name
+            Name = upsert.Name,
+            Status = upsert.Status,
         };
 
         return await _groupCud.InsertAsync(newGroup) ?
@@ -51,6 +52,7 @@ internal class GroupAction : IGroupAction
             return GroupActionStatus.NotFound;
 
         group.Name = upsert.Name;
+        group.Status = upsert.Status;
         return await _groupCud.UpdateAsync(group) ?
                     group : GroupActionStatus.Failed;
     }

@@ -1,5 +1,4 @@
 ﻿using LanguageExt;
-using Microsoft.EntityFrameworkCore;
 
 namespace KitchenStorage.Services.Implementation.MeasurmentType
 {
@@ -27,16 +26,10 @@ namespace KitchenStorage.Services.Implementation.MeasurmentType
                         newMeasurement : MeasurementTypeActionStatus.Failed;
         }
 
-        public async Task<Either<MeasurementTypeActionStatus, MeasurementType>> DeleteAsync(Guid id)
-        {
-            MeasurementType? measurementType = await _query.GetAsync(id);
-            if (measurementType is null)
-                return MeasurementTypeActionStatus.NotFound;
-
-            measurementType.Status = (byte)EntityState.Deleted;
-            return await _action.UpdateAsync(measurementType) ?
-                        measurementType : MeasurementTypeActionStatus.Failed;
-        }
+        public async Task<MeasurementTypeActionStatus> DeleteAsync(Guid id)
+                => await _action.DeleteAsync(id)
+                            ? MeasurementTypeActionStatus.Success
+                                : MeasurementTypeActionStatus.Failed;
 
         public async Task<Either<MeasurementTypeActionStatus, MeasurementType>> UpdateAsync(UpsertMeasurementTypeViewModel upsert)
         {

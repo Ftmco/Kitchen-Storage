@@ -1,5 +1,4 @@
 ﻿using LanguageExt;
-using Microsoft.EntityFrameworkCore;
 
 namespace KitchenStorage.Services.Implementation
 {
@@ -50,16 +49,8 @@ namespace KitchenStorage.Services.Implementation
                 ? await CreateAsync(upsert)
                 : await UpdateAsync(upsert);
 
-        public async Task<Either<NoteActionStatus, Note>> DeleteAsync(Guid id)
-        {
-            var note = await _noteQuery.GetAsync(id);
-
-            if (note is null)
-                return NoteActionStatus.NotFound;
-
-            note.Status = (byte)EntityState.Deleted;
-            return await _noteAction.UpdateAsync(note) ?
-                        note : NoteActionStatus.Failed;
-        }
+        public async Task<NoteActionStatus> DeleteAsync(Guid id)
+                => await _noteAction.DeleteAsync(id) ?
+                        NoteActionStatus.Success : NoteActionStatus.Failed;
     }
 }

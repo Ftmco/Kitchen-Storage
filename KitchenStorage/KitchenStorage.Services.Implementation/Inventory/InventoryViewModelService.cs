@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace KitchenStorage.Services.Implementation
+﻿namespace KitchenStorage.Services.Implementation
 {
     public class InventoryViewModelService : IInventoryViewModel
     {
@@ -8,7 +6,8 @@ namespace KitchenStorage.Services.Implementation
              => new(Id: inventory.Id,
                  Name: inventory.Name,
                  Value: inventory.Value,
-                 TypeId: inventory.TypeId,
+                 AlertLimit: inventory.AlertLimit,
+                 Type: null,
                  Description: inventory.Description,
                  Status: inventory.Status,
                  CreateDate: inventory.CreateDate.ToShamsi());
