@@ -1,5 +1,4 @@
 ﻿using KitchenStorage.Services.Abstraction;
-using KitchenStorage.Services.Abstraction.Base;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KitchenStorage.Api.Controllers
@@ -22,10 +21,10 @@ namespace KitchenStorage.Api.Controllers
             _viewModel = viewModel;
         }
 
-        [HttpGet("Get")]
-        public async Task<IActionResult> GetAsync()
+        [HttpGet("Foods")]
+        public async Task<IActionResult> GetAsync(int page, int count)
         {
-            return Ok(Success("", "", await _query.FoodsAsync()));
+            return Ok(Success("", "", await _query.FoodsAsync(page, count)));
         }
 
         [HttpPost("Upsert")]
