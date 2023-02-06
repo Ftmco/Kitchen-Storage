@@ -1,9 +1,8 @@
-﻿namespace KitchenStorage.Services.Abstraction
-{
-    public interface IInventoryViewModel
-    {
-        InventoryViewModel CreateInventoryViewModel(Inventory inventory);
+﻿namespace KitchenStorage.Services.Abstraction;
 
-        IEnumerable<InventoryViewModel> CreateInventoryViewModel(IEnumerable<Inventory> inventories);
-    }
+public interface IInventoryViewModel
+{
+    Task<InventoryViewModel> CreateInventoryViewModelAsync(Inventory inventory);
+
+    Task<IEnumerable<InventoryViewModel>> CreateInventoryViewModelAsync(IEnumerable<Inventory> inventories);
 }
