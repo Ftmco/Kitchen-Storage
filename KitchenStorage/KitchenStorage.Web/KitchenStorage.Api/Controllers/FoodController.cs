@@ -32,13 +32,13 @@ namespace KitchenStorage.Api.Controllers
         public async Task<IActionResult> GetAsync(int page, int count)
         {
             var foods = await _query.FoodsAsync(page, count);
-            return Ok(Success("", "", new { foods.PageCount, Foods = foods.Result }));
+            return Ok(Success("", "", new { foods.PageCount, Foods = _viewModel.CreateFoodViewModel(foods.Result) }));
         }
 
         [HttpGet("Norms")]
         public async Task<IActionResult> GetAsync()
         {
-            return Ok(Success("", "", new { Norms = await _normQuery.NormsAsync() }));
+            return Ok(Success("", "", new { Norms = _normViewModel.CreateNormViewModel(await _normQuery.NormsAsync()) }));
         }
 
         [HttpGet("AddNorm")]
