@@ -47,20 +47,14 @@ namespace KitchenStorage.Api.Controllers
 
         [HttpDelete("Delete")]
         public async Task<IActionResult> DeleteAsync(Guid id)
-        {
-            var delete = await _action.DeleteAsync(id);
-            return await delete.MatchAsync(RightAsync: async (inventory) => Ok(Success("دارایی با موفقیت حذف شد", "", new
-            {
-                Inventory = await _viewModel.CreateInventoryViewModelAsync(inventory),
-            })),
-                                Left: (status) => InventoryActionResult(status));
-        }
+                => InventoryActionResult(await _action.DeleteAsync(id));
 
         [NonAction]
         OkObjectResult InventoryActionResult(InventoryActionStatus status) => status switch
         {
             InventoryActionStatus.Failed => Ok(ApiException()),
             InventoryActionStatus.NotFound => Ok(Faild(404, "دارایی مورد نظر یافت نشد", "")),
+            InventoryActionStatus.Success => Ok(Success("عملیات مورد نظر با موفقیت انجام شد", "", new { })),
             _ => Ok(ApiException()),
         };
     }

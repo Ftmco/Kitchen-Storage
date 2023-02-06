@@ -8,6 +8,6 @@
 
         Task<Either<InventoryActionStatus, Inventory>> UpdateAsync(UpsertInventoryViewModel upsert);
 
-        Task<Either<InventoryActionStatus, Inventory>> DeleteAsync(Guid id);
+        Task<InventoryActionStatus> DeleteAsync(Guid id);
     }
 }

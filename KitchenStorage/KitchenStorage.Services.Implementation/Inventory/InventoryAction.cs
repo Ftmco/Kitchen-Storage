@@ -1,5 +1,4 @@
 ﻿using LanguageExt;
-using Microsoft.EntityFrameworkCore;
 
 namespace KitchenStorage.Services.Implementation
 {
@@ -23,6 +22,7 @@ namespace KitchenStorage.Services.Implementation
                 Name = upsert.Name,
                 Value = upsert.Value,
                 TypeId = upsert.TypeId,
+                AlertLimit = upsert.AlertLimit,
                 Description = upsert.Description,
             };
 
@@ -40,6 +40,7 @@ namespace KitchenStorage.Services.Implementation
             inventory.Value = upsert.Value;
             inventory.TypeId = upsert.TypeId;
             inventory.Description = upsert.Description;
+            inventory.AlertLimit = upsert.AlertLimit;
 
             return await _inventoryAction.UpdateAsync(inventory) ?
             inventory : InventoryActionStatus.Failed;
@@ -50,16 +51,9 @@ namespace KitchenStorage.Services.Implementation
                 ? await CreateAsync(upsert)
                 : await UpdateAsync(upsert);
 
-        public async Task<Either<InventoryActionStatus, Inventory>> DeleteAsync(Guid id)
-        {
-            var inventory = await _inventoryQuery.GetAsync(id);
-
-            if (inventory is null)
-                return InventoryActionStatus.NotFound;
-
-            inventory.Status = (byte)EntityState.Deleted;
-            return await _inventoryAction.UpdateAsync(inventory) ?
-                        inventory : InventoryActionStatus.Failed;
-        }
+        public async Task<InventoryActionStatus> DeleteAsync(Guid id)
+                => await _inventoryAction.DeleteAsync(id)
+                            ? InventoryActionStatus.Success
+                            : InventoryActionStatus.Failed;
     }
 }
