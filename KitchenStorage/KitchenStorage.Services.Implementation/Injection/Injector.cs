@@ -86,6 +86,10 @@ public static class Injector
 
         #region Norm
 
+        services.AddTransient<IGetNorm, GetNorm>();
+        services.AddTransient<INormAction, NormAction>();
+        services.AddTransient<INormViewModel, NormViewModelService>();
+
         #endregion
     }
 }
