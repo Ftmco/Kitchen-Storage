@@ -12,17 +12,20 @@ namespace KitchenStorage.Api.Controllers
         private readonly IGetNorm _normQuery;
         private readonly IFoodViewModel _viewModel;
         private readonly INormAction _normAction;
+        private readonly INormViewModel _normViewModel;
 
         public FoodController
             (IFoodAction action,
             IGetFood query,
             IFoodViewModel viewModel,
-            INormAction normAction)
+            INormAction normAction,
+            INormViewModel normViewModel)
         {
             _action = action;
             _query = query;
             _viewModel = viewModel;
             _normAction = normAction;
+            _normViewModel = normViewModel;
         }
 
         [HttpGet("Foods")]
@@ -41,7 +44,12 @@ namespace KitchenStorage.Api.Controllers
         [HttpGet("AddNorm")]
         public async Task<IActionResult> AddNormAsync(NormViewModel norm)
         {
-            return Ok();
+            var addNorm = await _normAction.CreateAsync(norm);
+            return addNorm.Match(Right: (norm) => Ok(Success("نرم  با موفقیت ثبت شد", "", new
+            {
+                Norm = _normViewModel.CreateNormViewModel(norm),
+            })),
+                                Left: (status) => FoodActionResult(status));
         }
 
         [HttpPost("Upsert")]
