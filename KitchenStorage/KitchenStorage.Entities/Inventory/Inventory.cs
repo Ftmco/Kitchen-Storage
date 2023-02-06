@@ -19,6 +19,14 @@ public record Inventory : BaseEntity
     [Required]
     public string Description { get; set; }
 
+    [Required]
+    public Guid GroupId { get; set; }
+
+    // Navigation Properties
+    // Relationships
+
+    public virtual Group Group { get; set; }
+
     public virtual MeasurementType MeasurementType { get; set; }
 
 }
