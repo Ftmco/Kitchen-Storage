@@ -24,6 +24,7 @@ namespace KitchenStorage.Services.Implementation
                 TypeId = upsert.TypeId,
                 AlertLimit = upsert.AlertLimit,
                 Description = upsert.Description,
+                GroupId = upsert.GroupId,
             };
 
             return await _inventoryAction.InsertAsync(newInventory) ?
@@ -41,6 +42,7 @@ namespace KitchenStorage.Services.Implementation
             inventory.TypeId = upsert.TypeId;
             inventory.Description = upsert.Description;
             inventory.AlertLimit = upsert.AlertLimit;
+            inventory.GroupId = upsert.GroupId;
 
             return await _inventoryAction.UpdateAsync(inventory) ?
             inventory : InventoryActionStatus.Failed;
