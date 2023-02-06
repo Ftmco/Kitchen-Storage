@@ -9,22 +9,39 @@ namespace KitchenStorage.Api.Controllers
     {
         private readonly IFoodAction _action;
         private readonly IGetFood _query;
+        private readonly IGetNorm _normQuery;
         private readonly IFoodViewModel _viewModel;
+        private readonly INormAction _normAction;
 
         public FoodController
             (IFoodAction action,
             IGetFood query,
-            IFoodViewModel viewModel)
+            IFoodViewModel viewModel,
+            INormAction normAction)
         {
             _action = action;
             _query = query;
             _viewModel = viewModel;
+            _normAction = normAction;
         }
 
         [HttpGet("Foods")]
         public async Task<IActionResult> GetAsync(int page, int count)
         {
-            return Ok(Success("", "", await _query.FoodsAsync(page, count)));
+            var foods = await _query.FoodsAsync(page, count);
+            return Ok(Success("", "", new { foods.PageCount, Foods = foods.Result }));
+        }
+
+        [HttpGet("Norms")]
+        public async Task<IActionResult> GetAsync()
+        {
+            return Ok(Success("", "", new { Norms = await _normQuery.NormsAsync() }));
+        }
+
+        [HttpGet("AddNorm")]
+        public async Task<IActionResult> AddNormAsync(NormViewModel norm)
+        {
+            return Ok();
         }
 
         [HttpPost("Upsert")]
