@@ -19,8 +19,9 @@ namespace KitchenStorage.Api.Controllers
             IGetFood query,
             IFoodViewModel viewModel,
             INormAction normAction,
-            INormViewModel normViewModel)
+            INormViewModel normViewModel, IGetNorm getNorm)
         {
+            _normQuery = getNorm;
             _action = action;
             _query = query;
             _viewModel = viewModel;
@@ -36,9 +37,10 @@ namespace KitchenStorage.Api.Controllers
         }
 
         [HttpGet("Norms")]
-        public async Task<IActionResult> GetAsync(Guid foodId)
+        public async Task<IActionResult> GetNormsAsync(Guid foodId)
         {
-            return Ok(Success("", "", new { Norms = _normViewModel.CreateNormViewModel(await _normQuery.NormsAsync(foodId)) }));
+            IEnumerable<Entities.Norm> norms = await _normQuery.NormsAsync(foodId);
+            return Ok(Success("", "", new { Norms = _normViewModel.CreateNormViewModel(norms) }));
         }
 
         [HttpGet("AddNorm")]

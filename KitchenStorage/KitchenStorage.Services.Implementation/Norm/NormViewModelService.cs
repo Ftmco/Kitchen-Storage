@@ -1,17 +1,16 @@
-﻿namespace KitchenStorage.Services.Implementation
-{
-    public class NormViewModelService : INormViewModel
-    {
-        public NormViewModel CreateNormViewModel(Norm norm)
-            => new(
-                Id: norm.Id,
-                Value: norm.Value,
-                FoodId: norm.FoodId,
-                InventoryId: norm.InventoryId,
-                Status: norm.Status,
-                CreateDate: norm.CreateDate.ToShamsi());
+﻿namespace KitchenStorage.Services.Implementation;
 
-        public IEnumerable<NormViewModel> CreateNormViewModel(IEnumerable<Norm> norms)
-            => norms.Select(CreateNormViewModel);
-    }
+public class NormViewModelService : INormViewModel
+{
+    public NormViewModel CreateNormViewModel(Norm norm)
+        => new(
+            Id: norm.Id,
+            Value: norm.Value,
+            FoodId: norm.FoodId,
+            InventoryId: norm.InventoryId,
+            Status: norm.Status,
+            CreateDate: norm.CreateDate.ToShamsi());
+
+    public IEnumerable<NormViewModel> CreateNormViewModel(IEnumerable<Norm> norms)
+        => norms.Select(CreateNormViewModel);
 }
