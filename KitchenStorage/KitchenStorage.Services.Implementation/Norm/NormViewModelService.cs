@@ -5,7 +5,6 @@
         public NormViewModel CreateNormViewModel(Norm norm)
             => new(
                 Id: norm.Id,
-                Name: norm.Name,
                 Value: norm.Value,
                 FoodId: norm.FoodId,
                 InventoryId: norm.InventoryId,

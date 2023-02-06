@@ -15,7 +15,6 @@ namespace KitchenStorage.Services.Implementation
         {
             Norm newNorm = new()
             {
-                Name = norm.Name,
                 Value = norm.Value,
                 InventoryId = norm.InventoryId,
                 FoodId = norm.FoodId,

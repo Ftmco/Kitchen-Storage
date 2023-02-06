@@ -12,7 +12,7 @@
         public async Task<Norm?> FindByIdAsync(Guid id)
             => await _query.GetAsync(id);
 
-        public async Task<IEnumerable<Norm>> NormsAsync()
-            => await _query.GetAllAsync();
+        public async Task<IEnumerable<Norm>> NormsAsync(Guid foodId)
+            => await _query.GetAllAsync(n => n.FoodId == foodId);
     }
 }

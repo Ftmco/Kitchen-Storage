@@ -36,9 +36,9 @@ namespace KitchenStorage.Api.Controllers
         }
 
         [HttpGet("Norms")]
-        public async Task<IActionResult> GetAsync()
+        public async Task<IActionResult> GetAsync(Guid foodId)
         {
-            return Ok(Success("", "", new { Norms = _normViewModel.CreateNormViewModel(await _normQuery.NormsAsync()) }));
+            return Ok(Success("", "", new { Norms = _normViewModel.CreateNormViewModel(await _normQuery.NormsAsync(foodId)) }));
         }
 
         [HttpGet("AddNorm")]
