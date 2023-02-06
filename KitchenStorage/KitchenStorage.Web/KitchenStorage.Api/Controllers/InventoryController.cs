@@ -33,6 +33,17 @@ namespace KitchenStorage.Api.Controllers
             }));
         }
 
+        [HttpGet("AlertLimit")]
+        public async Task<IActionResult> GetAlertLimitsAsync(int page, int count)
+        {
+            var alertLimit = await _query.GetAlertLimitAsync(page, count);
+            return Ok(Success("", "", new
+            {
+                alertLimit.PageCount,
+                Inventory = await _viewModel.CreateInventoryViewModelAsync(alertLimit.Result),
+            }));
+        }
+
 
         [HttpPost("Upsert")]
         public async Task<IActionResult> UpsertAsync(UpsertInventoryViewModel upsert)
