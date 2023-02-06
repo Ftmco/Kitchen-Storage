@@ -7,5 +7,8 @@ public record Group : BaseEntity
     [Required]
     public string Name { get; set; }
 
-    public virtual List<Inventory> Inventories { get; set; }
+    // Navigation Properties
+    // Relationships
+
+    public virtual ICollection<Inventory> Inventories { get; set; }
 }
