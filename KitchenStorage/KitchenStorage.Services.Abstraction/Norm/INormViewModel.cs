@@ -2,8 +2,8 @@
 {
     public interface INormViewModel
     {
-        NormViewModel CreateNormViewModel(Norm norm);
+        Task<NormViewModel> CreateNormViewModelAsync(Norm norm);
 
-        IEnumerable<NormViewModel> CreateNormViewModel(IEnumerable<Norm> norms);
+        Task<IEnumerable<NormViewModel>> CreateNormViewModelAsync(IEnumerable<Norm> norms);
     }
 }

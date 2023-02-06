@@ -1,6 +1,6 @@
-﻿namespace KitchenStorage.ViewModel
-{
-    public record NormViewModel
-        (Guid? Id, double Value, Guid FoodId, Guid InventoryId, byte Status, string CreateDate);
+﻿namespace KitchenStorage.ViewModel;
 
-}
+public record NormViewModel(Guid? Id, double Value, Guid FoodId, byte Status, string CreateDate, InventoryPreviewViewModel? Inventory);
+
+public record AddNormViewModel(double Value, Guid FoodId, Guid InventoryId);
+

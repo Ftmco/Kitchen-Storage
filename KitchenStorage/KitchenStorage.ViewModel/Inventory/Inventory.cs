@@ -3,6 +3,8 @@
 public record InventoryViewModel
     (Guid? Id, string Name, double Value, double AlertLimit, string Description, string CreateDate, double Status, GroupViewModel? Group, MeasurementTypeViewModel? Type);
 
+public record InventoryPreviewViewModel(Guid Id, string Name);
+
 public record UpsertInventoryViewModel
     (Guid? Id, string Name, double Value, double AlertLimit, Guid GroupId, Guid TypeId, string Description);
 

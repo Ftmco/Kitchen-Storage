@@ -40,16 +40,16 @@ namespace KitchenStorage.Api.Controllers
         public async Task<IActionResult> GetNormsAsync(Guid foodId)
         {
             IEnumerable<Entities.Norm> norms = await _normQuery.NormsAsync(foodId);
-            return Ok(Success("", "", new { Norms = _normViewModel.CreateNormViewModel(norms) }));
+            return Ok(Success("", "", new { Norms = await _normViewModel.CreateNormViewModelAsync(norms) }));
         }
 
-        [HttpGet("AddNorm")]
-        public async Task<IActionResult> AddNormAsync(NormViewModel norm)
+        [HttpPost("AddNorm")]
+        public async Task<IActionResult> AddNormAsync(AddNormViewModel norm)
         {
             var addNorm = await _normAction.CreateAsync(norm);
-            return addNorm.Match(Right: (norm) => Ok(Success("نرم  با موفقیت ثبت شد", "", new
+            return await addNorm.MatchAsync(RightAsync: async (norm) => Ok(Success("نرم  با موفقیت ثبت شد", "", new
             {
-                Norm = _normViewModel.CreateNormViewModel(norm),
+                Norm = await _normViewModel.CreateNormViewModelAsync(norm),
             })),
                                 Left: (status) => FoodActionResult(status));
         }

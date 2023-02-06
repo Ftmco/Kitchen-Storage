@@ -2,15 +2,37 @@
 
 public class NormViewModelService : INormViewModel
 {
-    public NormViewModel CreateNormViewModel(Norm norm)
-        => new(
+    private readonly IBaseQuery<Inventory> _inventoryQuery;
+
+    private readonly IInventoryViewModel _inventoryViewModel;
+
+    public NormViewModelService(IBaseQuery<Inventory> inventoryQuery, IInventoryViewModel inventoryViewModel)
+    {
+        _inventoryQuery = inventoryQuery;
+        _inventoryViewModel = inventoryViewModel;
+    }
+
+    public async Task<NormViewModel> CreateNormViewModelAsync(Norm norm)
+    {
+        Inventory? inventory = await _inventoryQuery.GetAsync(norm.InventoryId);
+
+        return new(
             Id: norm.Id,
             Value: norm.Value,
             FoodId: norm.FoodId,
-            InventoryId: norm.InventoryId,
             Status: norm.Status,
-            CreateDate: norm.CreateDate.ToShamsi());
+            CreateDate: norm.CreateDate.ToShamsi(),
+            Inventory: inventory is null ? null : new(Id: inventory.Id, Name: inventory.Name));
 
-    public IEnumerable<NormViewModel> CreateNormViewModel(IEnumerable<Norm> norms)
-        => norms.Select(CreateNormViewModel);
+    }
+
+    public async Task<IEnumerable<NormViewModel>> CreateNormViewModelAsync(IEnumerable<Norm> norms)
+    {
+        List<NormViewModel> viewModels = new();
+
+        foreach (var item in norms)
+            viewModels.Add(await CreateNormViewModelAsync(item));
+
+        return viewModels;
+    }
 }

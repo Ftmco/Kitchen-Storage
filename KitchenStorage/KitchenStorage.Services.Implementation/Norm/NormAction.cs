@@ -11,7 +11,7 @@ namespace KitchenStorage.Services.Implementation
             _action = action;
         }
 
-        public async Task<Either<FoodActionStatus, Norm>> CreateAsync(NormViewModel norm)
+        public async Task<Either<FoodActionStatus, Norm>> CreateAsync(AddNormViewModel norm)
         {
             Norm newNorm = new()
             {
@@ -24,7 +24,7 @@ namespace KitchenStorage.Services.Implementation
                         newNorm : FoodActionStatus.Failed;
         }
 
-        public async Task<Either<FoodActionStatus, Norm>> DeleteAsync(Guid id)
+        public async Task<FoodActionStatus> DeleteAsync(Guid id)
             => await _action.DeleteAsync(id)
                             ? FoodActionStatus.Success
                             : FoodActionStatus.Failed;

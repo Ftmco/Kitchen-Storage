@@ -2,8 +2,8 @@
 {
     public interface INormAction
     {
-        Task<Either<FoodActionStatus, Norm>> CreateAsync(NormViewModel norm);
+        Task<Either<FoodActionStatus, Norm>> CreateAsync(AddNormViewModel norm);
 
-        Task<Either<FoodActionStatus, Norm>> DeleteAsync(Guid id);
+        Task<FoodActionStatus> DeleteAsync(Guid id);
     }
 }
