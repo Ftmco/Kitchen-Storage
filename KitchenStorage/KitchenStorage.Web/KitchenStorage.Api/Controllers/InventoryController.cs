@@ -29,7 +29,7 @@ namespace KitchenStorage.Api.Controllers
             return Ok(Success("", "", new
             {
                 inventory.PageCount,
-                Inventory = _viewModel.CreateInventoryViewModel(inventory.Result),
+                Inventory = await _viewModel.CreateInventoryViewModelAsync(inventory.Result),
             }));
         }
 
@@ -38,9 +38,9 @@ namespace KitchenStorage.Api.Controllers
         public async Task<IActionResult> UpsertAsync(UpsertInventoryViewModel upsert)
         {
             var upserInventory = await _action.UpsertAsync(upsert);
-            return upserInventory.Match(Right: (inventory) => Ok(Success("دارایی با موفقیت ثبت شد", "", new
+            return await upserInventory.MatchAsync(RightAsync: async (inventory) => Ok(Success("دارایی با موفقیت ثبت شد", "", new
             {
-                Inventory = _viewModel.CreateInventoryViewModel(inventory),
+                Inventory = await _viewModel.CreateInventoryViewModelAsync(inventory),
             })),
                                 Left: (status) => InventoryActionResult(status));
         }
@@ -49,9 +49,9 @@ namespace KitchenStorage.Api.Controllers
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
             var delete = await _action.DeleteAsync(id);
-            return delete.Match(Right: (inventory) => Ok(Success("دارایی با موفقیت حذف شد", "", new
+            return await delete.MatchAsync(RightAsync: async (inventory) => Ok(Success("دارایی با موفقیت حذف شد", "", new
             {
-                Inventory = _viewModel.CreateInventoryViewModel(inventory),
+                Inventory = await _viewModel.CreateInventoryViewModelAsync(inventory),
             })),
                                 Left: (status) => InventoryActionResult(status));
         }
