@@ -14,7 +14,7 @@ public static class ApiResponse
     public static ApiModel ApiException(string title = "خطایی رخ داد مجدادا تلاش کنید", string message = "")
             => new(500, false, title, message, new { });
 
-    public static ApiModel Faild(int code, string title, string message)
+    public static ApiModel Failed(int code, string title, string message)
         => new(code, false, title, message, new { });
 }
 
