@@ -16,5 +16,9 @@
 	  <ProjectReference Include="..\KitchenStorage.Entities\KitchenStorage.Entities.csproj" />
 	  <ProjectReference Include="..\KitchenStorage.Services.Abstraction\KitchenStorage.Services.Abstraction.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Day\" />
+	</ItemGroup>
 	
 </Project>
