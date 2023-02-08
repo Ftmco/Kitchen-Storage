@@ -1,12 +1,8 @@
-﻿using KitchenStorage.Entities.Base;
+﻿namespace KitchenStorage.Entities;
 
-namespace KitchenStorage.Entities
+public record MeasurementType : BaseEntity
 {
-    public record MeasurementType : BaseEntity
-    {
-
-        [Required]
-        public string Name { get; set; }
-    }
-
+    [Required]
+    public string Name { get; set; }
 }
+

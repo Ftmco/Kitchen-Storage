@@ -1,7 +1,6 @@
-﻿using KitchenStorage.Entities.Base;
+﻿namespace KitchenStorage.Entities;
 
-namespace KitchenStorage.Entities;
-
+[Index(nameof(Id), nameof(GroupId), nameof(TypeId))]
 public record Inventory : BaseEntity
 {
     [Required]
@@ -28,6 +27,10 @@ public record Inventory : BaseEntity
     public virtual Group Group { get; set; }
 
     public virtual MeasurementType MeasurementType { get; set; }
+
+    public virtual ICollection<InventoryPartition> Partitions { get; set; }
+
+    public virtual ICollection<Norm> Norms { get; set; }
 
 }
 

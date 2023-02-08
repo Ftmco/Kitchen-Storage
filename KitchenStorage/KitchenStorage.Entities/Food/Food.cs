@@ -1,6 +1,4 @@
-﻿using KitchenStorage.Entities.Base;
-
-namespace KitchenStorage.Entities;
+﻿namespace KitchenStorage.Entities;
 
 public record Food : BaseEntity
 {
@@ -11,6 +9,7 @@ public record Food : BaseEntity
 
     public byte Type { get; set; }
 
-    // Realtions
-    public virtual List<Norm> Norms { get; set; }
+    // Relationships
+
+    public virtual ICollection<Norm> Norms { get; set; }
 }

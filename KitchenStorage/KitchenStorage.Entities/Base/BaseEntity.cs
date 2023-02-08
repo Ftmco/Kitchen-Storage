@@ -1,4 +1,4 @@
-﻿namespace KitchenStorage.Entities.Base;
+﻿namespace KitchenStorage.Entities;
 
 public record BaseEntity
 {
