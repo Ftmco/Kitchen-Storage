@@ -3,10 +3,7 @@
 public record DayFood : BaseEntity
 {
     [Required]
-    public byte DayNumber { get; set; }
-
-    [Required]
-    public string Day { get; set; }
+    public Guid DayId { get; set; }
 
     [Required]
     public byte Meal { get; set; }
@@ -15,4 +12,6 @@ public record DayFood : BaseEntity
     // Relationships
 
     public virtual ICollection<DaysFoods> DaysFoods { get; set; }
+
+    public virtual Day Day { get; set; }
 }
