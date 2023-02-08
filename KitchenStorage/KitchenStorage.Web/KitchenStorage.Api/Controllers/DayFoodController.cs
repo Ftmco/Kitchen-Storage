@@ -35,22 +35,26 @@ public class DayFoodController : ControllerBase
     [HttpPost("Upsert")]
     public async Task<IActionResult> UpsertFoodAsync(UpsertDayFoodViewModel upsert)
     {
-        return Ok();
+        var dayFood = await _action.UpsertAsync(upsert);
+
+        return await dayFood.MatchAsync(RightAsync: async (food) => Ok(Success("غذای روزانه با موفقیت ثبت شد", "", new
+        {
+            Food = await _viewModel.CreateDayFoodViewModelAsync(food)
+        })),
+        Left: (status) => DayFoodActionResult(status));
     }
 
     [HttpDelete("Delete")]
     public async Task<IActionResult> DeleteFoodAsync(Guid id)
-    {
-        return Ok();
-    }
+            => DayFoodActionResult(await _action.DeleteAsync(id));
 
     [NonAction]
     OkObjectResult DayFoodActionResult(DayFoodActionStatus status) => status switch
     {
-        DayFoodActionStatus.Success => throw new NotImplementedException(),
-        DayFoodActionStatus.Failed => throw new NotImplementedException(),
-        DayFoodActionStatus.NotFound => throw new NotImplementedException(),
-        DayFoodActionStatus.LackOfInventory => throw new NotImplementedException(),
-        _ => throw new NotImplementedException(),
+        DayFoodActionStatus.Success => Ok(Success("عملیات مورد نظر با موفقیت انجام شد", "", new { })),
+        DayFoodActionStatus.Failed => Ok(ApiException()),
+        DayFoodActionStatus.NotFound => Ok(Failed(404, "غذای مورد نظر یافت نشد", "")),
+        DayFoodActionStatus.LackOfInventory => Ok(Failed(400, "موجودی انبار شما کافی نمی باشد", "")),
+        _ => Ok(ApiException()),
     };
 }
