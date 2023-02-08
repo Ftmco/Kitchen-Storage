@@ -7,4 +7,6 @@ public interface IDayFoodAction
     Task<Either<DayFoodActionStatus, DayFood>> UpdateAsync(UpsertDayFoodViewModel update);
 
     Task<Either<DayFoodActionStatus, DayFood>> CreateAsync(UpsertDayFoodViewModel create);
+
+    Task<DayFoodActionStatus> DeleteAsync(Guid id);
 }

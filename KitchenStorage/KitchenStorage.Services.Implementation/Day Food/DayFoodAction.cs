@@ -6,18 +6,47 @@ internal class DayFoodAction : IDayFoodAction
 
     private readonly IBaseCud<DayFood> _cud;
 
-    public Task<Either<DayFoodActionStatus, DayFood>> CreateAsync(UpsertDayFoodViewModel create)
+    public DayFoodAction(IBaseQuery<DayFood> query, IBaseCud<DayFood> cud)
     {
-        throw new NotImplementedException();
+        _query = query;
+        _cud = cud;
     }
 
-    public Task<Either<DayFoodActionStatus, DayFood>> UpdateAsync(UpsertDayFoodViewModel update)
+    public async Task<Either<DayFoodActionStatus, DayFood>> CreateAsync(UpsertDayFoodViewModel create)
     {
-        throw new NotImplementedException();
+        DayFood dayFood = new()
+        {
+            DayId = create.DayId,
+            FoodId = create.FoodId,
+            Meal = create.Meal,
+
+        };
+
+        return await _cud.InsertAsync(dayFood) ?
+                        dayFood : DayFoodActionStatus.Failed;
     }
 
-    public Task<Either<DayFoodActionStatus, DayFood>> UpsertAsync(UpsertDayFoodViewModel upsert)
+    public async Task<DayFoodActionStatus> DeleteAsync(Guid id)
+        => await _cud.DeleteAsync(id) ?
+                        DayFoodActionStatus.Success
+                        : DayFoodActionStatus.Failed;
+
+    public async Task<Either<DayFoodActionStatus, DayFood>> UpdateAsync(UpsertDayFoodViewModel update)
     {
-        throw new NotImplementedException();
+        DayFood? dayFood = await _query.GetAsync(update.Id);
+        if (dayFood is null)
+            return DayFoodActionStatus.NotFound;
+
+        dayFood.FoodId = update.FoodId;
+        dayFood.DayId = update.DayId;
+        dayFood.Meal = update.Meal;
+
+        return await _cud.UpdateAsync(dayFood) ?
+                     dayFood : DayFoodActionStatus.Failed;
     }
+
+    public async Task<Either<DayFoodActionStatus, DayFood>> UpsertAsync(UpsertDayFoodViewModel upsert)
+            => upsert.Id is null
+                            ? await CreateAsync(upsert)
+                            : await UpdateAsync(upsert);
 }
