@@ -1,9 +1,10 @@
-﻿namespace KitchenStorage.Services.Abstraction
+﻿namespace KitchenStorage.Services.Abstraction;
+
+public interface IGetInventory
 {
-    public interface IGetInventory
-    {
-        Task<IEnumerable<Inventory>> InventorysAsync();
-        Task<PaginationResult<IEnumerable<Inventory>>> InventorysAsync(int page, int count);
-        Task<PaginationResult<IEnumerable<Inventory>>> GetAlertLimitAsync(int page, int count);
-    }
+    Task<IEnumerable<Inventory>> InventorysAsync();
+
+    Task<PaginationResult<IEnumerable<Inventory>>> InventorysAsync(int page, int count);
+
+    Task<PaginationResult<IEnumerable<Inventory>>> GetAlertLimitAsync(int page, int count);
 }

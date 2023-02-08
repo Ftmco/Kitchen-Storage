@@ -22,7 +22,6 @@ namespace KitchenStorage.Api.Controllers
         }
 
         [HttpGet("Inventory")]
-
         public async Task<IActionResult> GetInventoryAsync(int page, int count)
         {
             var inventory = await _query.InventorysAsync(page, count);
@@ -30,6 +29,16 @@ namespace KitchenStorage.Api.Controllers
             {
                 inventory.PageCount,
                 Inventory = await _viewModel.CreateInventoryViewModelAsync(inventory.Result),
+            }));
+        }
+
+        [HttpGet("Preview")]
+        public async Task<IActionResult> GetPreviewInventoriesAsync()
+        {
+            IEnumerable<Entities.Inventory> inventories = await _query.InventorysAsync();
+            return Ok(Success("", "", new
+            {
+                Inventory = _viewModel.CreatePreviewInventiryViewModel(inventories)
             }));
         }
 

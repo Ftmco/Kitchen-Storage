@@ -43,4 +43,11 @@ public class InventoryViewModelService : IInventoryViewModel
 
         return viewModels;
     }
+
+    public InventoryPreviewViewModel CreatePreviewInventiryViewModel(Inventory inventory)
+        => new(Id: inventory.Id,
+            Name: inventory.Name);
+
+    public IEnumerable<InventoryPreviewViewModel> CreatePreviewInventiryViewModel(IEnumerable<Inventory> inventory)
+        => inventory.Select(CreatePreviewInventiryViewModel);
 }

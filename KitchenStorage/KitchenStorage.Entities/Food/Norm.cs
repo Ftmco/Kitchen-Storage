@@ -12,7 +12,8 @@ public record Norm : BaseEntity
     [Required]
     public Guid InventoryId { get; set; }
 
-
+    [Required]
+    public Guid TypeId { get; set; }
 
     // Navigation Properties
     // Relationships

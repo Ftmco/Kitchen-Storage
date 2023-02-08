@@ -43,7 +43,7 @@ namespace KitchenStorage.DataBase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Foods", (string)null);
+                    b.ToTable("Foods");
                 });
 
             modelBuilder.Entity("KitchenStorage.Entities.FoodHistory", b =>
@@ -71,7 +71,7 @@ namespace KitchenStorage.DataBase.Migrations
 
                     b.HasIndex("FoodId");
 
-                    b.ToTable("FoodHistories", (string)null);
+                    b.ToTable("FoodHistories");
                 });
 
             modelBuilder.Entity("KitchenStorage.Entities.Group", b =>
@@ -92,7 +92,7 @@ namespace KitchenStorage.DataBase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Group", (string)null);
+                    b.ToTable("Group");
                 });
 
             modelBuilder.Entity("KitchenStorage.Entities.Inventory", b =>
@@ -138,7 +138,7 @@ namespace KitchenStorage.DataBase.Migrations
 
                     b.HasIndex("Id", "GroupId", "TypeId");
 
-                    b.ToTable("Inventories", (string)null);
+                    b.ToTable("Inventories");
                 });
 
             modelBuilder.Entity("KitchenStorage.Entities.InventoryPartition", b =>
@@ -167,7 +167,7 @@ namespace KitchenStorage.DataBase.Migrations
 
                     b.HasIndex("InventoryId");
 
-                    b.ToTable("InventoryPartitions", (string)null);
+                    b.ToTable("InventoryPartitions");
                 });
 
             modelBuilder.Entity("KitchenStorage.Entities.MeasurementType", b =>
@@ -188,7 +188,7 @@ namespace KitchenStorage.DataBase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MeasurementTypes", (string)null);
+                    b.ToTable("MeasurementTypes");
                 });
 
             modelBuilder.Entity("KitchenStorage.Entities.Norm", b =>
@@ -206,12 +206,11 @@ namespace KitchenStorage.DataBase.Migrations
                     b.Property<Guid>("InventoryId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<byte>("Status")
                         .HasColumnType("tinyint");
+
+                    b.Property<Guid>("TypeId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("Value")
                         .HasColumnType("float");
@@ -222,7 +221,7 @@ namespace KitchenStorage.DataBase.Migrations
 
                     b.HasIndex("InventoryId");
 
-                    b.ToTable("Norms", (string)null);
+                    b.ToTable("Norms");
                 });
 
             modelBuilder.Entity("KitchenStorage.Entities.Note", b =>
@@ -250,7 +249,7 @@ namespace KitchenStorage.DataBase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Notes", (string)null);
+                    b.ToTable("Notes");
                 });
 
             modelBuilder.Entity("KitchenStorage.Entities.TypeConvert", b =>
@@ -281,7 +280,7 @@ namespace KitchenStorage.DataBase.Migrations
 
                     b.HasIndex("FromTypeId", "ToTypeId");
 
-                    b.ToTable("TypeConvert", (string)null);
+                    b.ToTable("TypeConvert");
                 });
 
             modelBuilder.Entity("KitchenStorage.Entities.FoodHistory", b =>
