@@ -8,7 +8,7 @@
 
         Task<Either<FoodActionStatus, Food>> UpdateAsync(UpsertFoodViewModel upsert);
 
-        Task<Either<FoodActionStatus, Food>> DeleteAsync(Guid id);
+        Task<FoodActionStatus> DeleteAsync(Guid id);
 
     }
 }

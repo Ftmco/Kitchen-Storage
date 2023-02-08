@@ -1,7 +1,4 @@
-﻿using LanguageExt;
-using Microsoft.EntityFrameworkCore;
-
-namespace KitchenStorage.Services.Implementation
+﻿namespace KitchenStorage.Services.Implementation
 {
     public class FoodAction : IFoodAction
     {
@@ -28,16 +25,10 @@ namespace KitchenStorage.Services.Implementation
                         newFood : FoodActionStatus.Failed;
         }
 
-        public async Task<Either<FoodActionStatus, Food>> DeleteAsync(Guid id)
-        {
-            Food? food = await _foodQuery.GetAsync(id);
-            if (food is null)
-                return FoodActionStatus.NotFound;
-
-            food.Status = (byte)EntityState.Deleted;
-            return await _foodAction.UpdateAsync(food) ?
-                        food : FoodActionStatus.Failed;
-        }
+        public async Task<FoodActionStatus> DeleteAsync(Guid id)
+                => await _foodAction.DeleteAsync(id)
+                                ? FoodActionStatus.Success
+                                : FoodActionStatus.Failed;
 
         public async Task<Either<FoodActionStatus, Food>> UpdateAsync(UpsertFoodViewModel upsert)
         {
