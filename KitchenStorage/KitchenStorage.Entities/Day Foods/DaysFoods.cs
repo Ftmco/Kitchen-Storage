@@ -3,7 +3,7 @@
 public record DaysFoods : BaseEntity
 {
     [Required]
-    public Guid DayId { get; set; }
+    public Guid DayFoodId { get; set; }
 
     [Required]
     public Guid FoodId { get; set; }

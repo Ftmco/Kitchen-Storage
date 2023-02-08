@@ -71,14 +71,7 @@ namespace KitchenStorage.Api.Controllers
 
         [HttpDelete("Delete")]
         public async Task<IActionResult> DeleteAsync(Guid id)
-        {
-            var delete = await _action.DeleteAsync(id);
-            return delete.Match(Right: (food) => Ok(Success("غذا با موفقیت حذف شد", "", new
-            {
-                Food = _viewModel.CreateFoodViewModel(food),
-            })),
-                                Left: (status) => FoodActionResult(status));
-        }
+                => FoodActionResult(await _action.DeleteAsync(id));
 
         [NonAction]
         OkObjectResult FoodActionResult(FoodActionStatus status) => status switch
