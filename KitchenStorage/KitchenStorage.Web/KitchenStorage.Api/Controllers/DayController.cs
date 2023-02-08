@@ -24,18 +24,36 @@ public class DayController : ControllerBase
     [HttpGet("Days")]
     public async Task<IActionResult> GetDaysAsync()
     {
-        return Ok();
+        IEnumerable<Entities.Day> days = await _get.DaysAsync();
+        return Ok(Success("", "", new
+        {
+            Days = _viewModel.CreateDayViewModel(days)
+        }));
     }
 
     [HttpPost("AddDay")]
-    public async Task<IActionResult> AddDayAsync()
+    public async Task<IActionResult> AddDayAsync(AddDayViewModel addDay)
     {
-        return Ok();
+        var create = await _action.CreateAsync(addDay);
+
+        return create.Match(Right: (day) => Ok(Success("روز با موفقیت ثبت شد", "", new
+        {
+            Day = _viewModel.CreateDayViewModel(day)
+        })),
+        Left: (status) => DayActionResult(status));
     }
 
     [HttpDelete("Delete")]
     public async Task<IActionResult> DeleteDayAsync(Guid id)
+            => DayActionResult(await _action.DeleteAsync(id));
+
+    [NonAction]
+    OkObjectResult DayActionResult(DayActionStatus status) => status switch
     {
-        return Ok();
-    }
+        DayActionStatus.Success => Ok(Success("روز با موفقیت حذف شد", "", new { })),
+        DayActionStatus.Failed => Ok(ApiException()),
+        DayActionStatus.NotFound => Ok(Faild(404, "روز مورد نظر یافت نشد", "")),
+        DayActionStatus.Exist => Ok(Faild(400, "روز مورد نظر از قبل وجود دارد", "")),
+        _ => Ok(ApiException()),
+    };
 }

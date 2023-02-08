@@ -2,4 +2,5 @@
 
 public interface IGetDay
 {
+    Task<IEnumerable<Day>> DaysAsync();
 }
