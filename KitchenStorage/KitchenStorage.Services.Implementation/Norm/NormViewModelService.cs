@@ -4,17 +4,25 @@ public class NormViewModelService : INormViewModel
 {
     private readonly IBaseQuery<Inventory> _inventoryQuery;
 
+    private readonly IBaseQuery<MeasurementType> _typeQuery;
+
     private readonly IInventoryViewModel _inventoryViewModel;
 
-    public NormViewModelService(IBaseQuery<Inventory> inventoryQuery, IInventoryViewModel inventoryViewModel)
+    private readonly IMeasurementTypeViewModel _typeViewModel;
+
+    public NormViewModelService(IBaseQuery<Inventory> inventoryQuery, IInventoryViewModel inventoryViewModel,
+        IBaseQuery<MeasurementType> typeQuery, IMeasurementTypeViewModel typeViewModel)
     {
         _inventoryQuery = inventoryQuery;
         _inventoryViewModel = inventoryViewModel;
+        _typeQuery = typeQuery;
+        _typeViewModel = typeViewModel;
     }
 
     public async Task<NormViewModel> CreateNormViewModelAsync(Norm norm)
     {
         Inventory? inventory = await _inventoryQuery.GetAsync(norm.InventoryId);
+        MeasurementType? type = await _typeQuery.GetAsync(norm.TypeId);
 
         return new(
             Id: norm.Id,
@@ -22,7 +30,8 @@ public class NormViewModelService : INormViewModel
             FoodId: norm.FoodId,
             Status: norm.Status,
             CreateDate: norm.CreateDate.ToShamsi(),
-            Inventory: inventory is null ? null : new(Id: inventory.Id, Name: inventory.Name));
+            Type: type is null ? null : _typeViewModel.CreateMeasurementTypeViewModel(type),
+            Inventory: inventory is null ? null : _inventoryViewModel.CreatePreviewInventiryViewModel(inventory));
 
     }
 
