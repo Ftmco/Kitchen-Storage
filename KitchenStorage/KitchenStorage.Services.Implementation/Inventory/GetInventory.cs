@@ -16,6 +16,15 @@ public class GetInventory : IGetInventory
 
         return inventory.GetPaginationResult(inventoryCount.PageCount(count));
     }
+    public async Task<PaginationResult<IEnumerable<Inventory>>> GetAlertLimitAsync(int page, int count)
+    {
+        IEnumerable<Inventory> inventory = await _inventoryQuery
+            .GetAllAsync(x => x.Value <= x.AlertLimit, page, count);
+        var inventoryCount = await _inventoryQuery.CountAsync(x => x.Value <= x.AlertLimit);
+
+        return inventory.GetPaginationResult(inventoryCount.PageCount(count));
+    }
+
 
     public async Task<IEnumerable<Inventory>> InventorysAsync()
         => await _inventoryQuery.GetAllAsync();

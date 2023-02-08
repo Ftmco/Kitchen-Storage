@@ -1,5 +1,4 @@
 ﻿using KitchenStorage.Services.Abstraction;
-using KitchenStorage.Services.Abstraction.Base;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KitchenStorage.Api.Controllers
@@ -10,22 +9,49 @@ namespace KitchenStorage.Api.Controllers
     {
         private readonly IFoodAction _action;
         private readonly IGetFood _query;
+        private readonly IGetNorm _normQuery;
         private readonly IFoodViewModel _viewModel;
+        private readonly INormAction _normAction;
+        private readonly INormViewModel _normViewModel;
 
         public FoodController
             (IFoodAction action,
             IGetFood query,
-            IFoodViewModel viewModel)
+            IFoodViewModel viewModel,
+            INormAction normAction,
+            INormViewModel normViewModel, IGetNorm getNorm)
         {
+            _normQuery = getNorm;
             _action = action;
             _query = query;
             _viewModel = viewModel;
+            _normAction = normAction;
+            _normViewModel = normViewModel;
         }
 
-        [HttpGet("Get")]
-        public async Task<IActionResult> GetAsync()
+        [HttpGet("Foods")]
+        public async Task<IActionResult> GetAsync(int page, int count)
         {
-            return Ok(Success("", "", await _query.FoodsAsync()));
+            var foods = await _query.FoodsAsync(page, count);
+            return Ok(Success("", "", new { foods.PageCount, Foods = _viewModel.CreateFoodViewModel(foods.Result) }));
+        }
+
+        [HttpGet("Norms")]
+        public async Task<IActionResult> GetNormsAsync(Guid foodId)
+        {
+            IEnumerable<Entities.Norm> norms = await _normQuery.NormsAsync(foodId);
+            return Ok(Success("", "", new { Norms = await _normViewModel.CreateNormViewModelAsync(norms) }));
+        }
+
+        [HttpPost("AddNorm")]
+        public async Task<IActionResult> AddNormAsync(AddNormViewModel norm)
+        {
+            var addNorm = await _normAction.CreateAsync(norm);
+            return await addNorm.MatchAsync(RightAsync: async (norm) => Ok(Success("نرم  با موفقیت ثبت شد", "", new
+            {
+                Norm = await _normViewModel.CreateNormViewModelAsync(norm),
+            })),
+                                Left: (status) => FoodActionResult(status));
         }
 
         [HttpPost("Upsert")]

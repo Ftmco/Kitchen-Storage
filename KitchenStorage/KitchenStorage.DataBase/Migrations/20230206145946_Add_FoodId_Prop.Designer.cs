@@ -4,6 +4,7 @@ using KitchenStorage.DataBase.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KitchenStorage.DataBase.Migrations
 {
     [DbContext(typeof(KitchenContext))]
-    partial class KitchenContextModelSnapshot : ModelSnapshot
+    [Migration("20230206145946_Add_FoodId_Prop")]
+    partial class Add_FoodId_Prop
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,9 +62,6 @@ namespace KitchenStorage.DataBase.Migrations
 
                     b.Property<Guid>("FoodId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<byte>("Meal")
-                        .HasColumnType("tinyint");
 
                     b.Property<byte>("Status")
                         .HasColumnType("tinyint");
@@ -136,8 +135,6 @@ namespace KitchenStorage.DataBase.Migrations
 
                     b.HasIndex("MeasurementTypeId");
 
-                    b.HasIndex("Id", "GroupId", "TypeId");
-
                     b.ToTable("Inventories");
                 });
 
@@ -206,6 +203,10 @@ namespace KitchenStorage.DataBase.Migrations
                     b.Property<Guid>("InventoryId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<byte>("Status")
                         .HasColumnType("tinyint");
 
@@ -249,37 +250,6 @@ namespace KitchenStorage.DataBase.Migrations
                     b.ToTable("Notes");
                 });
 
-            modelBuilder.Entity("KitchenStorage.Entities.TypeConvert", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("FromTypeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<double>("FromValue")
-                        .HasColumnType("float");
-
-                    b.Property<byte>("Status")
-                        .HasColumnType("tinyint");
-
-                    b.Property<Guid>("ToTypeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<double>("ToValue")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FromTypeId", "ToTypeId");
-
-                    b.ToTable("TypeConvert");
-                });
-
             modelBuilder.Entity("KitchenStorage.Entities.FoodHistory", b =>
                 {
                     b.HasOne("KitchenStorage.Entities.Food", "Food")
@@ -310,13 +280,13 @@ namespace KitchenStorage.DataBase.Migrations
 
             modelBuilder.Entity("KitchenStorage.Entities.InventoryPartition", b =>
                 {
-                    b.HasOne("KitchenStorage.Entities.Inventory", "Inventory")
-                        .WithMany("Partitions")
+                    b.HasOne("KitchenStorage.Entities.Inventory", "Partition")
+                        .WithMany()
                         .HasForeignKey("InventoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Inventory");
+                    b.Navigation("Partition");
                 });
 
             modelBuilder.Entity("KitchenStorage.Entities.Norm", b =>
@@ -328,7 +298,7 @@ namespace KitchenStorage.DataBase.Migrations
                         .IsRequired();
 
                     b.HasOne("KitchenStorage.Entities.Inventory", "Inventory")
-                        .WithMany("Norms")
+                        .WithMany()
                         .HasForeignKey("InventoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -346,13 +316,6 @@ namespace KitchenStorage.DataBase.Migrations
             modelBuilder.Entity("KitchenStorage.Entities.Group", b =>
                 {
                     b.Navigation("Inventories");
-                });
-
-            modelBuilder.Entity("KitchenStorage.Entities.Inventory", b =>
-                {
-                    b.Navigation("Norms");
-
-                    b.Navigation("Partitions");
                 });
 #pragma warning restore 612, 618
         }

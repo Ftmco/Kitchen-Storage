@@ -9,10 +9,12 @@
             _query = query;
         }
 
-        public async Task<Food?> FindByIdAsync(Guid id)
-            => await _query.GetAsync(id);
+        public async Task<PaginationResult<IEnumerable<Food>>> FoodsAsync(int page, int count)
+        {
+            IEnumerable<Food> food = await _query.GetAllAsync(page, count);
+            var inventoryCount = await _query.CountAsync();
 
-        public async Task<IEnumerable<Food>> FoodsAsync()
-            => await _query.GetAllAsync();
+            return food.GetPaginationResult(inventoryCount.PageCount(count));
+        }
     }
 }

@@ -2,7 +2,7 @@
 {
     public interface IGetNorm
     {
-        Task<IEnumerable<Norm>> NormsAsync();
-        Task<Norm?> FindByIdAsync(Guid id);
+        Task<IEnumerable<Norm>> NormsAsync(Guid FoodId);
+
     }
 }

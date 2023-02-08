@@ -1,8 +1,7 @@
-﻿namespace KitchenStorage.Services.Abstraction
+﻿namespace KitchenStorage.Services.Abstraction;
+
+public interface IGetFood
 {
-    public interface IGetFood
-    {
-        Task<IEnumerable<Food>> FoodsAsync();
-        Task<Food?> FindByIdAsync(Guid id);
-    }
+    Task<PaginationResult<IEnumerable<Food>>> FoodsAsync(int page, int count);
+
 }
