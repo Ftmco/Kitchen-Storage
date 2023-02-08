@@ -1,7 +1,5 @@
 ﻿using KitchenStorage.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Runtime.CompilerServices;
 
 namespace KitchenStorage.DataBase.Context;
 
@@ -26,12 +24,21 @@ public class KitchenContext : DbContext
     }
 
     public virtual DbSet<Group> Group { get; set; } = null!;
+
     public virtual DbSet<Inventory> Inventories { get; set; } = null!;
+
     public virtual DbSet<Food> Foods { get; set; } = null!;
+
     public virtual DbSet<Norm> Norms { get; set; } = null!;
+
     public virtual DbSet<InventoryPartition> InventoryPartitions { get; set; } = null!;
+
     public virtual DbSet<Note> Notes { get; set; } = null!;
+
     public virtual DbSet<FoodHistory> FoodHistories { get; set; } = null!;
+
     public virtual DbSet<MeasurementType> MeasurementTypes { get; set; } = null!;
+
+    public virtual DbSet<TypeConvert> TypeConvert { get; set; } = null!;
 
 }
