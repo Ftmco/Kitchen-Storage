@@ -51,7 +51,7 @@ public class MeasurementTypeController : ControllerBase
     OkObjectResult MeasurementActionResult(MeasurementTypeActionStatus status) => status switch
     {
         MeasurementTypeActionStatus.Failed => Ok(ApiException()),
-        MeasurementTypeActionStatus.NotFound => Ok(Faild(404, "نوع اندازگیری مورد نظر یافت نشد", "")),
+        MeasurementTypeActionStatus.NotFound => Ok(Failed(404, "نوع اندازگیری مورد نظر یافت نشد", "")),
         MeasurementTypeActionStatus.Success => Ok(Success("عملیات مورد نظر با موفقیت انجام شد", "", new { })),
         _ => Ok(ApiException()),
     };

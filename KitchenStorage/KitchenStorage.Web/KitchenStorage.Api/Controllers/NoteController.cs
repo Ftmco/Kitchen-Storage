@@ -52,7 +52,7 @@ namespace KitchenStorage.Api.Controllers
         OkObjectResult NoteActionResult(NoteActionStatus status) => status switch
         {
             NoteActionStatus.Failed => Ok(ApiException()),
-            NoteActionStatus.NotFound => Ok(Faild(404, "یادداشت مورد نظر یافت نشد", "")),
+            NoteActionStatus.NotFound => Ok(Failed(404, "یادداشت مورد نظر یافت نشد", "")),
             NoteActionStatus.Success => Ok(Success("علمیات با موفقیت انجام شد", "", new { })),
             _ => Ok(ApiException()),
         };

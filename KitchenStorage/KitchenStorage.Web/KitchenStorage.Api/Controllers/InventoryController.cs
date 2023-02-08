@@ -73,7 +73,7 @@ namespace KitchenStorage.Api.Controllers
         OkObjectResult InventoryActionResult(InventoryActionStatus status) => status switch
         {
             InventoryActionStatus.Failed => Ok(ApiException()),
-            InventoryActionStatus.NotFound => Ok(Faild(404, "دارایی مورد نظر یافت نشد", "")),
+            InventoryActionStatus.NotFound => Ok(Failed(404, "دارایی مورد نظر یافت نشد", "")),
             InventoryActionStatus.Success => Ok(Success("عملیات مورد نظر با موفقیت انجام شد", "", new { })),
             _ => Ok(ApiException()),
         };

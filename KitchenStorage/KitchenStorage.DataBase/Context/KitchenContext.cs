@@ -45,6 +45,4 @@ public class KitchenContext : DbContext
 
     public virtual DbSet<DayFood> DayFood { get; set; } = null!;
 
-    public virtual DbSet<DaysFoods> DaysFoods { get; set; } = null!;
-
 }

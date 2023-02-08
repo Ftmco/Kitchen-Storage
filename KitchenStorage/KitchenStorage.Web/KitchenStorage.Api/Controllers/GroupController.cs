@@ -58,7 +58,7 @@ public class GroupController : ControllerBase
     OkObjectResult GroupActionResult(GroupActionStatus status) => status switch
     {
         GroupActionStatus.Failed => Ok(ApiException()),
-        GroupActionStatus.NotFound => Ok(Faild(404, "گروه مورد نظر یافت نشد", "")),
+        GroupActionStatus.NotFound => Ok(Failed(404, "گروه مورد نظر یافت نشد", "")),
         _ => Ok(ApiException()),
     };
 }

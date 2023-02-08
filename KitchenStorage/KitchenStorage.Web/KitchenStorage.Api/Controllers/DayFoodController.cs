@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using KitchenStorage.Services.Abstraction;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KitchenStorage.Api.Controllers;
 
@@ -6,10 +7,54 @@ namespace KitchenStorage.Api.Controllers;
 [ApiController]
 public class DayFoodController : ControllerBase
 {
+    private readonly IGetDayFood _get;
+
+    private readonly IDayFoodAction _action;
+
+    private readonly IDayFoodViewModel _viewModel;
+
+    public DayFoodController(IGetDayFood get, IDayFoodAction action, IDayFoodViewModel viewModel)
+    {
+        _action = action;
+        _get = get;
+        _viewModel = viewModel;
+    }
 
     [HttpGet("DaysFoods")]
     public async Task<IActionResult> GetDaysFoodsAsync(int page, int count)
     {
-        return Ok();
+        var daysFoods = await _get.DayFoodsAsync(page, count);
+
+        return Ok(Success("", "", new
+        {
+            daysFoods.PageCount,
+            DayFoods = await _viewModel.CreateDayFoodViewModelAsync(daysFoods.Result)
+        }));
     }
+
+    [HttpPost("Upsert")]
+    public async Task<IActionResult> UpsertFoodAsync(UpsertDayFoodViewModel upsert)
+    {
+        var dayFood = await _action.UpsertAsync(upsert);
+
+        return await dayFood.MatchAsync(RightAsync: async (food) => Ok(Success("غذای روزانه با موفقیت ثبت شد", "", new
+        {
+            Food = await _viewModel.CreateDayFoodViewModelAsync(food)
+        })),
+        Left: (status) => DayFoodActionResult(status));
+    }
+
+    [HttpDelete("Delete")]
+    public async Task<IActionResult> DeleteFoodAsync(Guid id)
+            => DayFoodActionResult(await _action.DeleteAsync(id));
+
+    [NonAction]
+    OkObjectResult DayFoodActionResult(DayFoodActionStatus status) => status switch
+    {
+        DayFoodActionStatus.Success => Ok(Success("عملیات مورد نظر با موفقیت انجام شد", "", new { })),
+        DayFoodActionStatus.Failed => Ok(ApiException()),
+        DayFoodActionStatus.NotFound => Ok(Failed(404, "غذای مورد نظر یافت نشد", "")),
+        DayFoodActionStatus.LackOfInventory => Ok(Failed(400, "موجودی انبار شما کافی نمی باشد", "")),
+        _ => Ok(ApiException()),
+    };
 }

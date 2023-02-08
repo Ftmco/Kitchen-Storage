@@ -52,8 +52,8 @@ public class DayController : ControllerBase
     {
         DayActionStatus.Success => Ok(Success("روز با موفقیت حذف شد", "", new { })),
         DayActionStatus.Failed => Ok(ApiException()),
-        DayActionStatus.NotFound => Ok(Faild(404, "روز مورد نظر یافت نشد", "")),
-        DayActionStatus.Exist => Ok(Faild(400, "روز مورد نظر از قبل وجود دارد", "")),
+        DayActionStatus.NotFound => Ok(Failed(404, "روز مورد نظر یافت نشد", "")),
+        DayActionStatus.Exist => Ok(Failed(400, "روز مورد نظر از قبل وجود دارد", "")),
         _ => Ok(ApiException()),
     };
 }
