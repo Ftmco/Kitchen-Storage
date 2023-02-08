@@ -2,4 +2,5 @@
 
 public interface IGetDayFood
 {
+    Task<PaginationResult<IEnumerable<DayFood>>> DayFoodsAsync(int page, int count);
 }
