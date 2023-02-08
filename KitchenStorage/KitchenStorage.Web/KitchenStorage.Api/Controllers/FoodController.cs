@@ -54,6 +54,10 @@ namespace KitchenStorage.Api.Controllers
                                 Left: (status) => FoodActionResult(status));
         }
 
+        [HttpDelete("RemoveNorm")]
+        public async Task<IActionResult> RemoveNormAsync(Guid id)
+                => FoodActionResult(await _normAction.DeleteAsync(id));
+
         [HttpPost("Upsert")]
         public async Task<IActionResult> UpsertAsync(UpsertFoodViewModel upsert)
         {
@@ -81,6 +85,7 @@ namespace KitchenStorage.Api.Controllers
         {
             FoodActionStatus.Failed => Ok(ApiException()),
             FoodActionStatus.NotFound => Ok(Faild(404, "غذا مورد نظر یافت نشد", "")),
+            FoodActionStatus.Success => Ok(Success("عملیات مورد نظر با موفقیت انجام شد", "", new { })),
             _ => Ok(ApiException()),
         };
     }
