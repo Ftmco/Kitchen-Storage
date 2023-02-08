@@ -1,7 +1,0 @@
-export const DRAWER = "drawer"
-export const DIALOG = "dialog"
-export const CHAT = "chat"
-export const SNACKBAR = "snackBar"
-export const USER = "user"
-export const STEPPER = "stepper"
-export const LOADING = "loading"
