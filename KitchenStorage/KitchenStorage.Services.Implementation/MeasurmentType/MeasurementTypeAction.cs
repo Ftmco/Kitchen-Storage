@@ -1,50 +1,72 @@
-﻿using LanguageExt;
+﻿namespace KitchenStorage.Services.Implementation.MeasurmentType;
 
-namespace KitchenStorage.Services.Implementation.MeasurmentType
+public class MeasurementTypeAction : IMeasurementTypeAction
 {
-    public class MeasurementTypeAction : IMeasurementTypeAction
+    private readonly IBaseQuery<MeasurementType> _query;
+    private readonly IBaseCud<MeasurementType> _action;
+
+    private readonly IBaseQuery<TypeConvert> _convertQuery;
+    private readonly IBaseCud<TypeConvert> _convertCud;
+
+    public MeasurementTypeAction
+        (IBaseQuery<MeasurementType> query,
+        IBaseCud<MeasurementType> action,
+        IBaseCud<TypeConvert> convertCud,
+        IBaseQuery<TypeConvert> convertQuery)
     {
-        private readonly IBaseQuery<MeasurementType> _query;
-        private readonly IBaseCud<MeasurementType> _action;
+        _query = query;
+        _action = action;
+        _convertCud = convertCud;
+        _convertQuery = convertQuery;
+    }
 
-        public MeasurementTypeAction
-            (IBaseQuery<MeasurementType> query,
-            IBaseCud<MeasurementType> action)
+    public async Task<Either<MeasurementTypeActionStatus, TypeConvert>> AddConvertAsync(AddConvertViewModel addConvert)
+    {
+        TypeConvert convert = new()
         {
-            _query = query;
-            _action = action;
-        }
+            FromTypeId = addConvert.FromTypeId,
+            ToTypeId = addConvert.ToTypeId,
+            FromValue = addConvert.FromValue,
+            ToValue = addConvert.ToValue
+        };
+        return await _convertCud.InsertAsync(convert) ?
+                                convert : MeasurementTypeActionStatus.Failed;
+    }
 
-        public async Task<Either<MeasurementTypeActionStatus, MeasurementType>> CreateAsync(UpsertMeasurementTypeViewModel upsert)
+    public async Task<Either<MeasurementTypeActionStatus, MeasurementType>> CreateAsync(UpsertMeasurementTypeViewModel upsert)
+    {
+        MeasurementType newMeasurement = new()
         {
-            MeasurementType newMeasurement = new()
-            {
-                Name = upsert.Name,
-            };
+            Name = upsert.Name,
+        };
 
-            return await _action.InsertAsync(newMeasurement) ?
-                        newMeasurement : MeasurementTypeActionStatus.Failed;
-        }
+        return await _action.InsertAsync(newMeasurement) ?
+                    newMeasurement : MeasurementTypeActionStatus.Failed;
+    }
 
-        public async Task<MeasurementTypeActionStatus> DeleteAsync(Guid id)
-                => await _action.DeleteAsync(id)
-                            ? MeasurementTypeActionStatus.Success
+    public async Task<MeasurementTypeActionStatus> DeleteAsync(Guid id)
+            => await _action.DeleteAsync(id)
+                        ? MeasurementTypeActionStatus.Success
+                            : MeasurementTypeActionStatus.Failed;
+
+    public async Task<MeasurementTypeActionStatus> DeleteConvertAsync(Guid id)
+            => await _convertCud.DeleteAsync(id)
+                                ? MeasurementTypeActionStatus.Success
                                 : MeasurementTypeActionStatus.Failed;
 
-        public async Task<Either<MeasurementTypeActionStatus, MeasurementType>> UpdateAsync(UpsertMeasurementTypeViewModel upsert)
-        {
-            var measurement = await _query.GetAsync(upsert.Id);
-            if (measurement is null)
-                return MeasurementTypeActionStatus.NotFound;
+    public async Task<Either<MeasurementTypeActionStatus, MeasurementType>> UpdateAsync(UpsertMeasurementTypeViewModel upsert)
+    {
+        var measurement = await _query.GetAsync(upsert.Id);
+        if (measurement is null)
+            return MeasurementTypeActionStatus.NotFound;
 
-            measurement.Name = upsert.Name;
-            return await _action.UpdateAsync(measurement) ?
-            measurement : MeasurementTypeActionStatus.Failed;
-        }
-
-        public async Task<Either<MeasurementTypeActionStatus, MeasurementType>> UpsertAsync(UpsertMeasurementTypeViewModel upsert)
-                => upsert.Id is null
-                ? await CreateAsync(upsert)
-                : await UpdateAsync(upsert);
+        measurement.Name = upsert.Name;
+        return await _action.UpdateAsync(measurement) ?
+        measurement : MeasurementTypeActionStatus.Failed;
     }
+
+    public async Task<Either<MeasurementTypeActionStatus, MeasurementType>> UpsertAsync(UpsertMeasurementTypeViewModel upsert)
+            => upsert.Id is null
+            ? await CreateAsync(upsert)
+            : await UpdateAsync(upsert);
 }

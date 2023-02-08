@@ -9,4 +9,8 @@ public interface IMeasurementTypeAction
     Task<Either<MeasurementTypeActionStatus, MeasurementType>> UpdateAsync(UpsertMeasurementTypeViewModel upsert);
 
     Task<MeasurementTypeActionStatus> DeleteAsync(Guid id);
+
+    Task<Either<MeasurementTypeActionStatus, TypeConvert>> AddConvertAsync(AddConvertViewModel addConvert);
+
+    Task<MeasurementTypeActionStatus> DeleteConvertAsync(Guid id);
 }
