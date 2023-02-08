@@ -77,7 +77,7 @@ namespace KitchenStorage.Api.Controllers
         OkObjectResult FoodActionResult(FoodActionStatus status) => status switch
         {
             FoodActionStatus.Failed => Ok(ApiException()),
-            FoodActionStatus.NotFound => Ok(Faild(404, "غذا مورد نظر یافت نشد", "")),
+            FoodActionStatus.NotFound => Ok(Failed(404, "غذا مورد نظر یافت نشد", "")),
             FoodActionStatus.Success => Ok(Success("عملیات مورد نظر با موفقیت انجام شد", "", new { })),
             _ => Ok(ApiException()),
         };
