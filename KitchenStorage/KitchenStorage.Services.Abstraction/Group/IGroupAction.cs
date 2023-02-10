@@ -8,5 +8,5 @@ public interface IGroupAction : IAsyncDisposable
 
     Task<Either<GroupActionStatus, Group>> UpdateAsync(UpsertGroupViewModel upsert);
 
-    Task<Either<GroupActionStatus, Group>> DeleteAsync(Guid id);
+    Task<GroupActionStatus> DeleteAsync(Guid id);
 }

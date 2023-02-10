@@ -18,7 +18,7 @@
             Food newFood = new()
             {
                 Name = upsert.Name,
-                Type = upsert.type,
+                Type = upsert.Type,
             };
 
             return await _foodAction.InsertAsync(newFood) ?
@@ -37,7 +37,7 @@
                 return FoodActionStatus.NotFound;
 
             food.Name = upsert.Name;
-            food.Type = upsert.type;
+            food.Type = upsert.Type;
             return await _foodAction.UpdateAsync(food) ?
                         food : FoodActionStatus.Failed;
         }
