@@ -66,22 +66,14 @@ internal class DayFoodAction : IDayFoodAction
             return DayFoodActionStatus.NotFound;
 
         IEnumerable<Norm> norms = await _normGet.NormsAsync(food.Id);
-        foreach (var norm in norms)
+        foreach (Norm norm in norms)
         {
             Inventory? inventory = await _inventoryQuery.GetAsync(norm.InventoryId);
 
             if (inventory is null)
                 return DayFoodActionStatus.LackOfInventory;
 
-            MeasurementType? normType = await _typeQuery.GetAsync(norm.TypeId);
-            MeasurementType? inventoryType = await _typeQuery.GetAsync(inventory.TypeId);
-
-            TypeConvert? conversion = await _convertQuery.GetAsync(c => c.FromTypeId == inventoryType!.Id && c.ToTypeId == normType!.Id);
-            double value = norm.Value * makeMeal.Count;
-
-            if (conversion is not null)
-                value = ((conversion.FromValue * norm.Value) / conversion.ToValue) * makeMeal.Count;
-
+            double value = await MealValueAsync(inventory, norm, makeMeal.Count);
             if (inventory.Value < value)
                 return DayFoodActionStatus.LackOfInventory;
 
@@ -119,4 +111,18 @@ internal class DayFoodAction : IDayFoodAction
             => upsert.Id is null
                             ? await CreateAsync(upsert)
                             : await UpdateAsync(upsert);
+
+    async Task<double> MealValueAsync(Inventory inventory, Norm norm, int count)
+    {
+        MeasurementType? normType = await _typeQuery.GetAsync(norm.TypeId);
+        MeasurementType? inventoryType = await _typeQuery.GetAsync(inventory.TypeId);
+
+        TypeConvert? conversion = await _convertQuery.GetAsync(c => c.FromTypeId == inventoryType!.Id && c.ToTypeId == normType!.Id);
+        double value = norm.Value * count;
+
+        if (conversion is not null)
+            value = ((conversion.FromValue * norm.Value) / conversion.ToValue) * count;
+
+        return value;
+    }
 }
