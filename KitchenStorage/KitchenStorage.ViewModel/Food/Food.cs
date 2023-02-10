@@ -2,10 +2,10 @@
 {
 
     public record FoodViewModel
-        (Guid? Id, string Name, byte type, byte Status, string CreateDate);
+        (Guid? Id, string Name, byte Type, byte Status, string CreateDate);
 
     public record UpsertFoodViewModel
-         (Guid? Id, string Name, byte type);
+         (Guid? Id, string Name, byte Type);
 
     public enum FoodType
     {

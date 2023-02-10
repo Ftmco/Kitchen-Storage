@@ -5,7 +5,7 @@
         public FoodViewModel CreateFoodViewModel(Food food)
             => new(Id: food.Id,
                 Name: food.Name,
-                type: food.Type,
+                Type: food.Type,
                 CreateDate: food.CreateDate.ToShamsi(),
                 Status: food.Status);
 
