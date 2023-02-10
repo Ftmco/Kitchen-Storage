@@ -69,7 +69,6 @@ internal class DayFoodAction : IDayFoodAction
         foreach (Norm norm in norms)
         {
             Inventory? inventory = await _inventoryQuery.GetAsync(norm.InventoryId);
-
             if (inventory is null)
                 return DayFoodActionStatus.LackOfInventory;
 
