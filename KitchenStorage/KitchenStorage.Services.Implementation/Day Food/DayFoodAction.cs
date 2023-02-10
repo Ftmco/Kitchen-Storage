@@ -6,10 +6,34 @@ internal class DayFoodAction : IDayFoodAction
 
     private readonly IBaseCud<DayFood> _cud;
 
-    public DayFoodAction(IBaseQuery<DayFood> query, IBaseCud<DayFood> cud)
+    private readonly IBaseQuery<Food> _foodQuery;
+
+    private readonly IBaseQuery<Inventory> _inventoryQuery;
+
+    private readonly IBaseQuery<MeasurementType> _typeQuery;
+
+    private readonly IGetNorm _normGet;
+
+    private readonly IBaseQuery<TypeConvert> _convertQuery;
+
+    private readonly IBaseCud<Inventory> _inventoryCud;
+
+    private readonly IBaseCud<FoodHistory> _historyCud;
+
+    public DayFoodAction(IBaseQuery<DayFood> query, IBaseCud<DayFood> cud,
+        IBaseQuery<Food> foodQuery, IGetNorm normGet,
+        IBaseQuery<Inventory> inventoryQeury, IBaseQuery<MeasurementType> typeQuery,
+        IBaseQuery<TypeConvert> convertQuery, IBaseCud<Inventory> inventoryCud, IBaseCud<FoodHistory> historyCud)
     {
         _query = query;
         _cud = cud;
+        _foodQuery = foodQuery;
+        _normGet = normGet;
+        _inventoryQuery = inventoryQeury;
+        _typeQuery = typeQuery;
+        _convertQuery = convertQuery;
+        _inventoryCud = inventoryCud;
+        _historyCud = historyCud;
     }
 
     public async Task<Either<DayFoodActionStatus, DayFood>> CreateAsync(UpsertDayFoodViewModel create)
@@ -30,6 +54,52 @@ internal class DayFoodAction : IDayFoodAction
         => await _cud.DeleteAsync(id) ?
                         DayFoodActionStatus.Success
                         : DayFoodActionStatus.Failed;
+
+    public async Task<DayFoodActionStatus> MakeMealAsync(MakeMealViewModel makeMeal)
+    {
+        DayFood? dayFood = await _query.GetAsync(makeMeal.Id);
+        if (dayFood is null)
+            return DayFoodActionStatus.NotFound;
+
+        Food? food = await _foodQuery.GetAsync(dayFood.FoodId);
+        if (food is null)
+            return DayFoodActionStatus.NotFound;
+
+        IEnumerable<Norm> norms = await _normGet.NormsAsync(food.Id);
+        foreach (var norm in norms)
+        {
+            Inventory? inventory = await _inventoryQuery.GetAsync(norm.InventoryId);
+
+            if (inventory is null)
+                return DayFoodActionStatus.LackOfInventory;
+
+            MeasurementType? normType = await _typeQuery.GetAsync(norm.TypeId);
+            MeasurementType? inventoryType = await _typeQuery.GetAsync(inventory.TypeId);
+
+            TypeConvert? conversion = await _convertQuery.GetAsync(c => c.FromTypeId == inventoryType!.Id && c.ToTypeId == normType!.Id);
+            double value = norm.Value * makeMeal.Count;
+
+            if (conversion is not null)
+                value = ((conversion.FromValue * norm.Value) / conversion.ToValue) * makeMeal.Count;
+
+            if (inventory.Value < value)
+                return DayFoodActionStatus.LackOfInventory;
+
+            inventory.Value -= value;
+            await _inventoryCud.UpdateAsync(inventory);
+        }
+
+        await _historyCud.InsertAsync(new FoodHistory
+        {
+            DayId = dayFood.DayId,
+            FoodId = dayFood.FoodId,
+            Count = makeMeal.Count,
+            Description = makeMeal.Description,
+            Meal = dayFood.Meal,
+        });
+
+        return DayFoodActionStatus.Success;
+    }
 
     public async Task<Either<DayFoodActionStatus, DayFood>> UpdateAsync(UpsertDayFoodViewModel update)
     {

@@ -1,7 +1,4 @@
-﻿using KitchenStorage.Services.Abstraction;
-using Microsoft.AspNetCore.Mvc;
-
-namespace KitchenStorage.Api.Controllers;
+﻿namespace KitchenStorage.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -47,6 +44,10 @@ public class DayFoodController : ControllerBase
     [HttpDelete("Delete")]
     public async Task<IActionResult> DeleteFoodAsync(Guid id)
             => DayFoodActionResult(await _action.DeleteAsync(id));
+
+    [HttpPost("MakeMeal")]
+    public async Task<IActionResult> MakeMealAsync(MakeMealViewModel makeMeal)
+                => DayFoodActionResult(await _action.MakeMealAsync(makeMeal));
 
     [NonAction]
     OkObjectResult DayFoodActionResult(DayFoodActionStatus status) => status switch

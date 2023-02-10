@@ -1,7 +1,4 @@
-﻿using KitchenStorage.Services.Abstraction;
-using Microsoft.AspNetCore.Mvc;
-
-namespace KitchenStorage.Api.Controllers;
+﻿namespace KitchenStorage.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -46,6 +43,31 @@ public class MeasurementTypeController : ControllerBase
     [HttpDelete("Delete")]
     public async Task<IActionResult> DeleteAsync(Guid id)
             => MeasurementActionResult(await _action.DeleteAsync(id));
+
+    [HttpGet("Conversions")]
+    public async Task<IActionResult> GetConversionsAsync(Guid id)
+    {
+        IEnumerable<TypeConvert> conversions = await _query.ConversionsAsync(id);
+        return Ok(Success("", "", new
+        {
+            Conversions = await _viewModel.CreateConvertViewModelAsync(conversions)
+        }));
+    }
+
+    [HttpPost("AddConvert")]
+    public async Task<IActionResult> AddConvertAsync(AddConvertViewModel addConvert)
+    {
+        var convert = await _action.AddConvertAsync(addConvert);
+        return await convert.MatchAsync(RightAsync: async (conversion) => Ok(Success("تبدیل واحد با موفقیت افزوده شد", "", new
+        {
+            Conversion = await _viewModel.CreateConvertViewModelAsync(conversion)
+        })),
+         Left: (status) => MeasurementActionResult(status));
+    }
+
+    [HttpDelete("RemoveConveert")]
+    public async Task<IActionResult> RemoveConvertAsync(Guid id)
+            => MeasurementActionResult(await _action.DeleteConvertAsync(id));
 
     [NonAction]
     OkObjectResult MeasurementActionResult(MeasurementTypeActionStatus status) => status switch
