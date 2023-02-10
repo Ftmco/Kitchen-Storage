@@ -4,6 +4,8 @@ public record DayFoodViewModel(Guid Id, string Meal, FoodViewModel? Food, DayVie
 
 public record UpsertDayFoodViewModel(Guid? Id, string Meal, Guid FoodId, Guid DayId);
 
+public record MakeMealViewModel(Guid Id, int Count, string Description);
+
 public enum DayFoodActionStatus
 {
     Success = 0,
