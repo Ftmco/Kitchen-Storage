@@ -65,7 +65,7 @@ public class MeasurementTypeController : ControllerBase
          Left: (status) => MeasurementActionResult(status));
     }
 
-    [HttpDelete("RemoveConveert")]
+    [HttpDelete("RemoveConvert")]
     public async Task<IActionResult> RemoveConvertAsync(Guid id)
             => MeasurementActionResult(await _action.DeleteConvertAsync(id));
 
