@@ -1,7 +1,4 @@
-﻿using KitchenStorage.Services.Abstraction;
-using Microsoft.AspNetCore.Mvc;
-
-namespace KitchenStorage.Web.ApiControllers;
+﻿namespace KitchenStorage.Web.ApiControllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -45,20 +42,14 @@ public class GroupController : ControllerBase
 
     [HttpDelete("Delete")]
     public async Task<IActionResult> DeleteAsync(Guid id)
-    {
-        var delete = await _action.DeleteAsync(id);
-        return delete.Match(Right: (group) => Ok(Success("گروه با موفقیت حذف شد", "", new
-        {
-            Group = _viewModel.CreateGroupViewModel(group),
-        })),
-                            Left: (status) => GroupActionResult(status));
-    }
+            => GroupActionResult(await _action.DeleteAsync(id));
 
     [NonAction]
     OkObjectResult GroupActionResult(GroupActionStatus status) => status switch
     {
         GroupActionStatus.Failed => Ok(ApiException()),
         GroupActionStatus.NotFound => Ok(Failed(404, "گروه مورد نظر یافت نشد", "")),
+        GroupActionStatus.Success => Ok(Success("عملیات مورد نظر با موفقیت انجام شد", "", new { })),
         _ => Ok(ApiException()),
     };
 }
