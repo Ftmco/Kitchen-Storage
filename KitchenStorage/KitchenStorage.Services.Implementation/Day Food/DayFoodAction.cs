@@ -18,10 +18,12 @@ internal class DayFoodAction : IDayFoodAction
 
     private readonly IBaseCud<Inventory> _inventoryCud;
 
+    private readonly IBaseCud<FoodHistory> _historyCud;
+
     public DayFoodAction(IBaseQuery<DayFood> query, IBaseCud<DayFood> cud,
         IBaseQuery<Food> foodQuery, IGetNorm normGet,
         IBaseQuery<Inventory> inventoryQeury, IBaseQuery<MeasurementType> typeQuery,
-        IBaseQuery<TypeConvert> convertQuery, IBaseCud<Inventory> inventoryCud)
+        IBaseQuery<TypeConvert> convertQuery, IBaseCud<Inventory> inventoryCud, IBaseCud<FoodHistory> historyCud)
     {
         _query = query;
         _cud = cud;
@@ -31,6 +33,7 @@ internal class DayFoodAction : IDayFoodAction
         _typeQuery = typeQuery;
         _convertQuery = convertQuery;
         _inventoryCud = inventoryCud;
+        _historyCud = historyCud;
     }
 
     public async Task<Either<DayFoodActionStatus, DayFood>> CreateAsync(UpsertDayFoodViewModel create)
@@ -85,6 +88,15 @@ internal class DayFoodAction : IDayFoodAction
             inventory.Value -= value;
             await _inventoryCud.UpdateAsync(inventory);
         }
+
+        await _historyCud.InsertAsync(new FoodHistory
+        {
+            DayId = dayFood.DayId,
+            FoodId = dayFood.FoodId,
+            Count = makeMeal.Count,
+            Description = makeMeal.Description,
+            Meal = dayFood.Meal,
+        });
 
         return DayFoodActionStatus.Success;
     }
