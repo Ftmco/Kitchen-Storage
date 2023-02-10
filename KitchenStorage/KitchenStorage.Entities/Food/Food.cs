@@ -12,4 +12,6 @@ public record Food : BaseEntity
     // Relationships
 
     public virtual ICollection<Norm> Norms { get; set; }
+
+    public virtual ICollection<FoodHistory> FoodHistories { get; set; }
 }

@@ -12,4 +12,7 @@ public record Day : BaseEntity
     // Relationships
 
     public virtual ICollection<DayFood> DayFood { get; set; }
+
+    public virtual ICollection<FoodHistory> FoodHistories { get; set; }
+
 }
