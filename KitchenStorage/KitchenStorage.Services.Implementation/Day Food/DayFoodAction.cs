@@ -1,4 +1,8 @@
-﻿namespace KitchenStorage.Services.Implementation;
+﻿using KitchenStorage.Entities;
+using LanguageExt.ClassInstances;
+using System.Security.Cryptography.X509Certificates;
+
+namespace KitchenStorage.Services.Implementation;
 
 internal class DayFoodAction : IDayFoodAction
 {
@@ -66,9 +70,12 @@ internal class DayFoodAction : IDayFoodAction
             return DayFoodActionStatus.NotFound;
 
         IEnumerable<Norm> norms = await _normGet.NormsAsync(food.Id);
+        var inventories = new List<Inventory>();
+
         foreach (Norm norm in norms)
         {
             Inventory? inventory = await _inventoryQuery.GetAsync(norm.InventoryId);
+
             if (inventory is null)
                 return DayFoodActionStatus.LackOfInventory;
 
@@ -77,8 +84,10 @@ internal class DayFoodAction : IDayFoodAction
                 return DayFoodActionStatus.LackOfInventory;
 
             inventory.Value -= value;
-            await _inventoryCud.UpdateAsync(inventory);
+            inventories.Add(inventory);
         }
+        await _inventoryCud.UpdateAsync(inventories);
+
 
         await _historyCud.InsertAsync(new FoodHistory
         {
