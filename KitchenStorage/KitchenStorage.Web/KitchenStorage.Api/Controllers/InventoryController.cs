@@ -65,7 +65,7 @@ namespace KitchenStorage.Api.Controllers
                                 Left: (status) => InventoryActionResult(status));
         }
 
-        [HttpDelete("Delete")]
+        [HttpGet("Delete")]
         public async Task<IActionResult> DeleteAsync(Guid id)
                 => InventoryActionResult(await _action.DeleteAsync(id));
 

@@ -1,7 +1,4 @@
-﻿using KitchenStorage.Services.Abstraction;
-using Microsoft.AspNetCore.Mvc;
-
-namespace KitchenStorage.Api.Controllers
+﻿namespace KitchenStorage.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -54,7 +51,7 @@ namespace KitchenStorage.Api.Controllers
                                 Left: (status) => FoodActionResult(status));
         }
 
-        [HttpDelete("RemoveNorm")]
+        [HttpGet("RemoveNorm")]
         public async Task<IActionResult> RemoveNormAsync(Guid id)
                 => FoodActionResult(await _normAction.DeleteAsync(id));
 
@@ -69,7 +66,7 @@ namespace KitchenStorage.Api.Controllers
                                 Left: (status) => FoodActionResult(status));
         }
 
-        [HttpDelete("Delete")]
+        [HttpGet("Delete")]
         public async Task<IActionResult> DeleteAsync(Guid id)
                 => FoodActionResult(await _action.DeleteAsync(id));
 

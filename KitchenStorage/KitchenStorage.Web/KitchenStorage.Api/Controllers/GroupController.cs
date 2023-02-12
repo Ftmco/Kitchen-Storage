@@ -40,7 +40,7 @@ public class GroupController : ControllerBase
                             Left: (status) => GroupActionResult(status));
     }
 
-    [HttpDelete("Delete")]
+    [HttpGet("Delete")]
     public async Task<IActionResult> DeleteAsync(Guid id)
             => GroupActionResult(await _action.DeleteAsync(id));
 

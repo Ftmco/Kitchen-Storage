@@ -44,7 +44,7 @@ namespace KitchenStorage.Api.Controllers
                                 Left: (status) => NoteActionResult(status));
         }
 
-        [HttpDelete("Delete")]
+        [HttpGet("Delete")]
         public async Task<IActionResult> DeleteAsync(Guid id)
             => NoteActionResult(await _action.DeleteAsync(id));
 

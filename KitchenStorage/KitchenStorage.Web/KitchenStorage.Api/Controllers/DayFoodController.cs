@@ -41,7 +41,7 @@ public class DayFoodController : ControllerBase
         Left: (status) => DayFoodActionResult(status));
     }
 
-    [HttpDelete("Delete")]
+    [HttpGet("Delete")]
     public async Task<IActionResult> DeleteFoodAsync(Guid id)
             => DayFoodActionResult(await _action.DeleteAsync(id));
 
