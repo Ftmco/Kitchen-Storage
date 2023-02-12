@@ -4,7 +4,6 @@ using KitchenStorage.Services.Implementation.MeasurmentType;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection.Metadata;
 
 namespace KitchenStorage.Services.Implementation.Injection;
 
@@ -93,9 +92,8 @@ public static class Injector
         #endregion
 
         #region FoodHistory
-        services.AddTransient<IGetFoodHistory, GetFoodHistory>();
-        services.AddTransient<IFoodHistoryAction, FoodHistoryAction>();
-        services.AddTransient<IFoodHistoryViewModel, FoodHistoryViewModelService>();
+        services.AddTransient<IGetHistory, GetHistory>();
+        services.AddTransient<IHistoryViewModel, HistoryViewModelService>();
         #endregion
     }
 }
