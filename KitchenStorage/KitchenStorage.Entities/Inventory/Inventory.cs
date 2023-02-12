@@ -24,8 +24,6 @@ public record Inventory : BaseEntity
     // Navigation Properties
     // Relationships
 
-    public virtual Group Group { get; set; }
-
     public virtual MeasurementType MeasurementType { get; set; }
 
     public virtual ICollection<InventoryPartition> Partitions { get; set; }
