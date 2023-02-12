@@ -2,10 +2,9 @@
 
 public record GroupViewModel(Guid Id,
     string Name,
-    string CreateDate,
-    byte Status);
+    string CreateDate);
 
-public record UpsertGroupViewModel(Guid? Id, string Name, byte Status);
+public record UpsertGroupViewModel(Guid? Id, string Name);
 
 public enum GroupActionStatus
 {
