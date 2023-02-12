@@ -1,8 +1,4 @@
-﻿using KitchenStorage.Entities;
-using LanguageExt.ClassInstances;
-using System.Security.Cryptography.X509Certificates;
-
-namespace KitchenStorage.Services.Implementation;
+﻿namespace KitchenStorage.Services.Implementation;
 
 internal class DayFoodAction : IDayFoodAction
 {
@@ -24,10 +20,18 @@ internal class DayFoodAction : IDayFoodAction
 
     private readonly IBaseCud<FoodHistory> _historyCud;
 
+    private readonly IBaseCud<InventoryHistory> _inventoryHistory;
+
+    private readonly IBaseQuery<InventoryHistory> _inventoryHistoryQuery;
+
+    private readonly IBaseCud<InventoryHistoryList> _inventoryHistoryList;
+
     public DayFoodAction(IBaseQuery<DayFood> query, IBaseCud<DayFood> cud,
         IBaseQuery<Food> foodQuery, IGetNorm normGet,
         IBaseQuery<Inventory> inventoryQeury, IBaseQuery<MeasurementType> typeQuery,
-        IBaseQuery<TypeConvert> convertQuery, IBaseCud<Inventory> inventoryCud, IBaseCud<FoodHistory> historyCud)
+        IBaseQuery<TypeConvert> convertQuery, IBaseCud<Inventory> inventoryCud,
+        IBaseCud<FoodHistory> historyCud, IBaseCud<InventoryHistory> inventoryHistory,
+        IBaseCud<InventoryHistoryList> inventoryHistoryList, IBaseQuery<InventoryHistory> inventoryHistoryQuery)
     {
         _query = query;
         _cud = cud;
@@ -38,6 +42,9 @@ internal class DayFoodAction : IDayFoodAction
         _convertQuery = convertQuery;
         _inventoryCud = inventoryCud;
         _historyCud = historyCud;
+        _inventoryHistory = inventoryHistory;
+        _inventoryHistoryList = inventoryHistoryList;
+        _inventoryHistoryQuery = inventoryHistoryQuery;
     }
 
     public async Task<Either<DayFoodActionStatus, DayFood>> CreateAsync(UpsertDayFoodViewModel create)
@@ -71,6 +78,9 @@ internal class DayFoodAction : IDayFoodAction
 
         IEnumerable<Norm> norms = await _normGet.NormsAsync(food.Id);
         var inventories = new List<Inventory>();
+        List<InventoryHistory> logsOfInventory = new();
+
+        Guid logId = Guid.NewGuid();
 
         foreach (Norm norm in norms)
         {
@@ -81,22 +91,22 @@ internal class DayFoodAction : IDayFoodAction
 
             double value = await MealValueAsync(inventory, norm, makeMeal.Count);
             if (inventory.Value < value)
+            {
+                logsOfInventory.ForEach(async (log) =>
+                {
+                    await _inventoryHistoryList.DeleteAsync(l => l.HistoryId == log.Id);
+                    await _inventoryHistory.DeleteAsync(log);
+                });
                 return DayFoodActionStatus.LackOfInventory;
+            }
 
             inventory.Value -= value;
             inventories.Add(inventory);
+            await LogInventoryHistory(logId, inventory, makeMeal, value);
         }
         await _inventoryCud.UpdateAsync(inventories);
 
-
-        await _historyCud.InsertAsync(new FoodHistory
-        {
-            DayId = dayFood.DayId,
-            FoodId = dayFood.FoodId,
-            Count = makeMeal.Count,
-            Description = makeMeal.Description,
-            Meal = dayFood.Meal,
-        });
+        await LogFoodHistory(dayFood, makeMeal);
 
         return DayFoodActionStatus.Success;
     }
@@ -132,5 +142,41 @@ internal class DayFoodAction : IDayFoodAction
             value = ((conversion.FromValue * norm.Value) / conversion.ToValue) * count;
 
         return value;
+    }
+
+    async Task LogFoodHistory(DayFood dayFood, MakeMealViewModel makeMeal)
+     => await _historyCud.InsertAsync(new FoodHistory
+     {
+         DayId = dayFood.DayId,
+         FoodId = dayFood.FoodId,
+         Count = makeMeal.Count,
+         Description = makeMeal.Description,
+         Meal = dayFood.Meal,
+     });
+
+    async Task<InventoryHistory> LogInventoryHistory(Guid generateId, Inventory inventory, MakeMealViewModel makeMeal, double value)
+    {
+        InventoryHistory? history = await _inventoryHistoryQuery.GetAsync(h => h.GenerateId == generateId);
+        if (history is null)
+        {
+            history = new()
+            {
+                GenerateId = generateId,
+                Description = makeMeal.Description,
+            };
+            await _inventoryHistory.InsertAsync(history);
+        }
+
+        InventoryHistoryList item = new()
+        {
+            HistoryId = history.Id,
+            InventoryId = inventory.Id,
+            InventoryValue = inventory.Value,
+            Value = value,
+        };
+
+        await _inventoryHistoryList.InsertAsync(item);
+
+        return history;
     }
 }
