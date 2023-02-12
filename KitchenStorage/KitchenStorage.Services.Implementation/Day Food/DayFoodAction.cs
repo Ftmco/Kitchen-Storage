@@ -163,6 +163,7 @@ internal class DayFoodAction : IDayFoodAction
             {
                 GenerateId = generateId,
                 Description = makeMeal.Description,
+                Type = (byte)InventoryHistoryType.Output,
             };
             await _inventoryHistory.InsertAsync(history);
         }
