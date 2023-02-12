@@ -8,13 +8,16 @@ public record InventoryHistory : BaseEntity
     [Required]
     public string Description { get; set; }
 
+    [Required]
+    public byte Type { get; set; }
+
     // Navigation Properties
     // Relationships
 
     public virtual ICollection<InventoryHistoryList> InventoryHistoryList { get; set; }
 }
 
-public record InventoryHistoryList
+public record InventoryHistoryList : BaseEntity
 {
     [Required]
     public Guid HistoryId { get; set; }
@@ -32,4 +35,10 @@ public record InventoryHistoryList
     // Relationships
 
     public virtual InventoryHistory InventoryHistory { get; set; }
+}
+
+public enum InventoryHistoryType
+{
+    Input = 0,
+    Output = 1,
 }
