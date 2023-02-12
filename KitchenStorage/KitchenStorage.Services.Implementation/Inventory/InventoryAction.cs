@@ -3,14 +3,23 @@
 public class InventoryAction : IInventoryAction
 {
     private readonly IBaseCud<Inventory> _inventoryAction;
+
     private readonly IBaseQuery<Inventory> _inventoryQuery;
+
+    private readonly IBaseCud<InventoryHistory> _inventoryHistoryCud;
+
+    private readonly IBaseCud<InventoryHistoryList> _historyListCud;
 
     public InventoryAction
         (IBaseQuery<Inventory> inventoryQuery,
-        IBaseCud<Inventory> inventoryAction)
+        IBaseCud<Inventory> inventoryAction,
+        IBaseCud<InventoryHistory> inventoryHistoryCud,
+        IBaseCud<InventoryHistoryList> historyListCud)
     {
         _inventoryQuery = inventoryQuery;
         _inventoryAction = inventoryAction;
+        _inventoryHistoryCud = inventoryHistoryCud;
+        _historyListCud = historyListCud;
     }
 
     public async Task<Either<InventoryActionStatus, Inventory>> CreateAsync(UpsertInventoryViewModel upsert)
@@ -25,8 +34,12 @@ public class InventoryAction : IInventoryAction
             GroupId = upsert.GroupId,
         };
 
-        return await _inventoryAction.InsertAsync(newInventory) ?
-                    newInventory : InventoryActionStatus.Failed;
+        if (await _inventoryAction.InsertAsync(newInventory))
+        {
+            await LogHistory(newInventory, upsert.Value);
+            return newInventory;
+        }
+        return InventoryActionStatus.Failed;
     }
 
     public async Task<Either<InventoryActionStatus, Inventory>> UpdateAsync(UpsertInventoryViewModel upsert)
@@ -35,12 +48,18 @@ public class InventoryAction : IInventoryAction
         if (inventory is null)
             return InventoryActionStatus.NotFound;
 
+
+
         inventory.Name = upsert.Name;
-        inventory.Value = upsert.Value;
         inventory.TypeId = upsert.TypeId;
         inventory.Description = upsert.Description;
         inventory.AlertLimit = upsert.AlertLimit;
         inventory.GroupId = upsert.GroupId;
+
+        if (upsert.Value != inventory.Value)
+            await LogHistory(inventory with { Value = upsert.Value }, upsert.Value);
+
+        inventory.Value = upsert.Value;
 
         return await _inventoryAction.UpdateAsync(inventory) ?
         inventory : InventoryActionStatus.Failed;
@@ -55,4 +74,23 @@ public class InventoryAction : IInventoryAction
             => await _inventoryAction.DeleteAsync(id)
                         ? InventoryActionStatus.Success
                         : InventoryActionStatus.Failed;
+
+    async Task LogHistory(Inventory inventory, double value)
+    {
+        InventoryHistory history = new()
+        {
+            GenerateId = Guid.NewGuid(),
+            Description = inventory.Description,
+            Type = (byte)InventoryHistoryType.Input,
+        };
+
+        if (await _inventoryHistoryCud.InsertAsync(history))
+            await _historyListCud.InsertAsync(new InventoryHistoryList()
+            {
+                HistoryId = history.Id,
+                InventoryId = inventory.Id,
+                Value = value,
+                InventoryValue = inventory.Value,
+            });
+    }
 }
