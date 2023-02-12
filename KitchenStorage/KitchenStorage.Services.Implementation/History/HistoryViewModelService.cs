@@ -60,6 +60,7 @@ public class HistoryViewModelService : IHistoryViewModel
         return new(Id: history.Id,
             Description: history.Description,
             CreateDate: history.CreateDate.ToShamsi(),
+            Type: history.Type,
             HistoryList: await CreateInventoryHistoryItemViewModel(historyList));
     }
 
