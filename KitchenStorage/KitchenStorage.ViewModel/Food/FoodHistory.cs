@@ -5,7 +5,7 @@ public record FoodHistoryViewModel
 
 public record InventoryHistoryViewModel(Guid Id, string Description, string CreateDate, byte Type, IEnumerable<InventoryHistoryListViewModel> HistoryList);
 
-public record InventoryHistoryListViewModel(Guid Id, Guid HistoryId, double Value, double InventoryValue, InventoryPreviewViewModel? Inventory);
+public record InventoryHistoryListViewModel(Guid Id, Guid HistoryId, double Value, double CurrentValue, double NextValue, InventoryPreviewViewModel? Inventory);
 
 public enum FoodHistoryActionStatus
 {
