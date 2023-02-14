@@ -91,7 +91,8 @@ public class HistoryViewModelService : IHistoryViewModel
         return new(Id: inventoryHistory.Id,
             HistoryId: inventoryHistory.HistoryId,
             Value: inventoryHistory.Value,
-            InventoryValue: inventoryHistory.InventoryValue,
+            CurrentValue: inventoryHistory.CurrentValue,
+            NextValue: inventoryHistory.NextValue,
             Inventory: inventory is null ? null : _inventoryViewModel.CreatePreviewInventiryViewModel(inventory));
     }
 }
