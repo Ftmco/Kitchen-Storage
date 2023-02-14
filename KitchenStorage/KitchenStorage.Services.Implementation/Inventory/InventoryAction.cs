@@ -32,6 +32,7 @@ public class InventoryAction : IInventoryAction
             AlertLimit = upsert.AlertLimit,
             Description = upsert.Description,
             GroupId = upsert.GroupId,
+            Status = (byte)(upsert.Value > upsert.AlertLimit ? InventoryStatus.Available : InventoryStatus.AlertLimit),
         };
 
         if (await _inventoryAction.InsertAsync(newInventory))
@@ -60,6 +61,9 @@ public class InventoryAction : IInventoryAction
             await LogHistory(inventory, upsert.Value - inventory.Value, upsert.Value);
 
         inventory.Value = upsert.Value;
+
+        inventory.Status = (byte)(inventory.Value > inventory.AlertLimit ? InventoryStatus.Available : InventoryStatus.AlertLimit);
+
 
         return await _inventoryAction.UpdateAsync(inventory) ?
         inventory : InventoryActionStatus.Failed;
