@@ -172,7 +172,8 @@ internal class DayFoodAction : IDayFoodAction
         {
             HistoryId = history.Id,
             InventoryId = inventory.Id,
-            InventoryValue = inventory.Value,
+            CurrentValue = inventory.Value + value,
+            NextValue = inventory.Value,
             Value = value,
         };
 
