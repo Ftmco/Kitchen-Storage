@@ -29,7 +29,10 @@ public record InventoryHistoryList : BaseEntity
     public double Value { get; set; }
 
     [Required]
-    public double InventoryValue { get; set; }
+    public double CurrentValue { get; set; }
+
+    [Required]
+    public double NextValue { get; set; }
 
     // Navigation Properties
     // Relationships
