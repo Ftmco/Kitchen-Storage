@@ -36,7 +36,7 @@ public class InventoryAction : IInventoryAction
 
         if (await _inventoryAction.InsertAsync(newInventory))
         {
-            await LogHistory(newInventory, upsert.Value);
+            await LogHistory(newInventory, upsert.Value, upsert.Value);
             return newInventory;
         }
         return InventoryActionStatus.Failed;
@@ -57,7 +57,7 @@ public class InventoryAction : IInventoryAction
         inventory.GroupId = upsert.GroupId;
 
         if (upsert.Value != inventory.Value)
-            await LogHistory(inventory with { Value = upsert.Value }, upsert.Value);
+            await LogHistory(inventory, upsert.Value - inventory.Value, upsert.Value);
 
         inventory.Value = upsert.Value;
 
@@ -75,13 +75,13 @@ public class InventoryAction : IInventoryAction
                         ? InventoryActionStatus.Success
                         : InventoryActionStatus.Failed;
 
-    async Task LogHistory(Inventory inventory, double value)
+    async Task LogHistory(Inventory inventory, double value, double nextValue)
     {
         InventoryHistory history = new()
         {
             GenerateId = Guid.NewGuid(),
             Description = inventory.Description,
-            Type = (byte)InventoryHistoryType.Input,
+            Type = inventory.Value > nextValue ? (byte)InventoryHistoryType.Output : (byte)InventoryHistoryType.Input,
         };
 
         if (await _inventoryHistoryCud.InsertAsync(history))
@@ -90,7 +90,8 @@ public class InventoryAction : IInventoryAction
                 HistoryId = history.Id,
                 InventoryId = inventory.Id,
                 Value = value,
-                InventoryValue = inventory.Value,
+                CurrentValue = inventory.Value,
+                NextValue = nextValue
             });
     }
 }
