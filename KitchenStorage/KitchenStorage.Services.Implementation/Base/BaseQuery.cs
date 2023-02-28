@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace KitchenStorage.Services.Implementation.Base;
 
-internal class BaseQuery<TEntity> : IBaseQuery<TEntity> where TEntity : class
+internal class BaseQuery<TEntity> : IBaseQuery<TEntity> where TEntity : BaseEntity
 {
     readonly KitchenContext _context;
 

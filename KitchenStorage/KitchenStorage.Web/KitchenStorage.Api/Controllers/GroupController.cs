@@ -19,9 +19,9 @@ public class GroupController : ControllerBase
     }
 
     [HttpGet("Groups")]
-    public async Task<IActionResult> GetGroupsAsync(int page, int count)
+    public async Task<IActionResult> GetGroupsAsync(int page, int count, string? q)
     {
-        var groups = await _query.GroupsAsync(page, count);
+        var groups = await _query.GroupsAsync(page, count, q);
         return Ok(Success("", "", new
         {
             groups.PageCount,

@@ -1,7 +1,4 @@
-﻿using KitchenStorage.Services.Abstraction;
-using Microsoft.AspNetCore.Mvc;
-
-namespace KitchenStorage.Api.Controllers
+﻿namespace KitchenStorage.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -22,9 +19,9 @@ namespace KitchenStorage.Api.Controllers
         }
 
         [HttpGet("Inventory")]
-        public async Task<IActionResult> GetInventoryAsync(int page, int count)
+        public async Task<IActionResult> GetInventoryAsync(int page, int count, string? q)
         {
-            var inventory = await _query.InventorysAsync(page, count);
+            var inventory = await _query.InventorysAsync(page, count, q);
             return Ok(Success("", "", new
             {
                 inventory.PageCount,

@@ -2,7 +2,7 @@
 
 namespace KitchenStorage.Services.Abstraction.Base;
 
-public interface IBaseQuery<TEntity> : IAsyncDisposable where TEntity : class
+public interface IBaseQuery<TEntity> : IAsyncDisposable where TEntity : BaseEntity
 {
     Task<IEnumerable<TEntity>> GetAllAsync();
 

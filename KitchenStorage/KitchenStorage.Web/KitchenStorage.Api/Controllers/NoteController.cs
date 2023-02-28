@@ -1,7 +1,4 @@
-﻿using KitchenStorage.Services.Abstraction;
-using Microsoft.AspNetCore.Mvc;
-
-namespace KitchenStorage.Api.Controllers
+﻿namespace KitchenStorage.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -23,9 +20,9 @@ namespace KitchenStorage.Api.Controllers
 
         [HttpGet("Notes")]
 
-        public async Task<IActionResult> GetNotesAsync(int page, int count)
+        public async Task<IActionResult> GetNotesAsync(int page, int count, string? q)
         {
-            var result = await _query.NotesAsync(page, count);
+            var result = await _query.NotesAsync(page, count, q);
             return Ok(Success("", "", new
             {
                 result.PageCount,

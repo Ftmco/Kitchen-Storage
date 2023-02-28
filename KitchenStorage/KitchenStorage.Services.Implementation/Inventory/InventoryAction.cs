@@ -49,8 +49,6 @@ public class InventoryAction : IInventoryAction
         if (inventory is null)
             return InventoryActionStatus.NotFound;
 
-
-
         inventory.Name = upsert.Name;
         inventory.TypeId = upsert.TypeId;
         inventory.Description = upsert.Description;

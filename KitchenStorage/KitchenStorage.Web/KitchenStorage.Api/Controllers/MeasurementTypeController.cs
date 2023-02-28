@@ -19,9 +19,9 @@ public class MeasurementTypeController : ControllerBase
     }
 
     [HttpGet("Types")]
-    public async Task<IActionResult> GetTypesAsync(int page, int count)
+    public async Task<IActionResult> GetTypesAsync(int page, int count, string? q)
     {
-        var types = await _query.TypesAsync(page, count);
+        var types = await _query.TypesAsync(page, count, q);
         return Ok(Success("", "", new
         {
             types.PageCount,

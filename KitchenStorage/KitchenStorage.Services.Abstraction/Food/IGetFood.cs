@@ -2,6 +2,6 @@
 
 public interface IGetFood
 {
-    Task<PaginationResult<IEnumerable<Food>>> FoodsAsync(int page, int count);
+    Task<PaginationResult<IEnumerable<Food>>> FoodsAsync(int page, int count, string? q);
 
 }

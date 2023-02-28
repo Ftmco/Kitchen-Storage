@@ -2,5 +2,5 @@
 
 public interface IGetNote
 {
-    Task<PaginationResult<IEnumerable<Note>>> NotesAsync(int page, int pageCount);
+    Task<PaginationResult<IEnumerable<Note>>> NotesAsync(int page, int pageCount, string? q);
 }

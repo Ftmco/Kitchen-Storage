@@ -27,9 +27,9 @@
         }
 
         [HttpGet("Foods")]
-        public async Task<IActionResult> GetAsync(int page, int count)
+        public async Task<IActionResult> GetAsync(int page, int count, string? q)
         {
-            var foods = await _query.FoodsAsync(page, count);
+            var foods = await _query.FoodsAsync(page, count, q);
             return Ok(Success("", "", new { foods.PageCount, Foods = _viewModel.CreateFoodViewModel(foods.Result) }));
         }
 
