@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace KitchenStorage.Services.Implementation;
+﻿namespace KitchenStorage.Services.Implementation;
 
 public class GetHistory : IGetHistory
 {
@@ -14,16 +12,16 @@ public class GetHistory : IGetHistory
         _invetoryHistoryQuery = invetoryHistoryQuery;
     }
 
-    public async Task<PaginationResult<IEnumerable<FoodHistory>>> FoodHistoriesAsync(int page, int count, string? q)
+    public async Task<PaginationResult<IEnumerable<FoodHistory>>> FoodHistoriesAsync(int page, int count)
     {
-        Expression<Func<FoodHistory, bool>> query = fh => q == null || fh.Meal.Contains(q);
+
         IEnumerable<FoodHistory> foodHistories = await _query.GetAllAsync(page, count, x => x.CreateDate);
-        var foodHistoriesCount = await _query.CountAsync(query);
+        var foodHistoriesCount = await _query.CountAsync();
 
         return foodHistories.GetPaginationResult(foodHistoriesCount.PageCount(count));
     }
 
-    public async Task<PaginationResult<IEnumerable<InventoryHistory>>> InventoryHistoriesAsync(int page, int count, string? q)
+    public async Task<PaginationResult<IEnumerable<InventoryHistory>>> InventoryHistoriesAsync(int page, int count)
     {
         IEnumerable<InventoryHistory> histories = await _invetoryHistoryQuery.GetAllAsync(page, count);
         var historiesCount = await _invetoryHistoryQuery.CountAsync();

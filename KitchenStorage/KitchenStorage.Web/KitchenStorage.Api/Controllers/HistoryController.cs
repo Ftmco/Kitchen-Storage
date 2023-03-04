@@ -16,9 +16,9 @@ public class HistoryController : ControllerBase
     }
 
     [HttpGet("FoodHistories")]
-    public async Task<IActionResult> GetFoodHistoryAsync(int page, int count, string? q)
+    public async Task<IActionResult> GetFoodHistoryAsync(int page, int count)
     {
-        var histories = await _query.FoodHistoriesAsync(page, count, q);
+        var histories = await _query.FoodHistoriesAsync(page, count);
         return Ok(Success("", "", new
         {
             histories.PageCount,
@@ -27,9 +27,9 @@ public class HistoryController : ControllerBase
     }
 
     [HttpGet("InventoryHistory")]
-    public async Task<IActionResult> GetInventoryHistoryAsync(int page, int count, string? q)
+    public async Task<IActionResult> GetInventoryHistoryAsync(int page, int count)
     {
-        var histories = await _query.InventoryHistoriesAsync(page, count, q);
+        var histories = await _query.InventoryHistoriesAsync(page, count);
         return Ok(Success("", "", new
         {
             histories.PageCount,
