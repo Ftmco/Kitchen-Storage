@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace KitchenStorage.Services.Implementation.MeasurmentType;
+﻿namespace KitchenStorage.Services.Implementation.MeasurmentType;
 
 public class GetMeasurementType : IGetMeasurementType
 {
@@ -17,11 +15,10 @@ public class GetMeasurementType : IGetMeasurementType
     public async Task<IEnumerable<TypeConvert>> ConversionsAsync(Guid id)
             => await _convertQuery.GetAllAsync(tc => tc.FromTypeId == id);
 
-    public async Task<PaginationResult<IEnumerable<MeasurementType>>> TypesAsync(int page, int count, string? q)
+    public async Task<PaginationResult<IEnumerable<MeasurementType>>> TypesAsync(int page, int count)
     {
-        Expression<Func<MeasurementType, bool>> query = n => q == null || n.Name.Contains(q);
         IEnumerable<MeasurementType> types = await _query.GetAllAsync(page, count);
-        var typesCount = await _query.CountAsync(query);
+        var typesCount = await _query.CountAsync();
 
         return types.GetPaginationResult(typesCount.PageCount(count));
     }

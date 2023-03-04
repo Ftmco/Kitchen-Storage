@@ -20,9 +20,9 @@
 
         [HttpGet("Notes")]
 
-        public async Task<IActionResult> GetNotesAsync(int page, int count, string? q)
+        public async Task<IActionResult> GetNotesAsync(int page, int count)
         {
-            var result = await _query.NotesAsync(page, count, q);
+            var result = await _query.NotesAsync(page, count);
             return Ok(Success("", "", new
             {
                 result.PageCount,

@@ -19,9 +19,9 @@
         }
 
         [HttpGet("Inventory")]
-        public async Task<IActionResult> GetInventoryAsync(int page, int count, string? q)
+        public async Task<IActionResult> GetInventoryAsync(int page, int count)
         {
-            var inventory = await _query.InventorysAsync(page, count, q);
+            var inventory = await _query.InventorysAsync(page, count);
             return Ok(Success("", "", new
             {
                 inventory.PageCount,

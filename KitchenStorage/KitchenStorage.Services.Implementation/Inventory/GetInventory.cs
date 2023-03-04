@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace KitchenStorage.Services.Implementation;
+﻿namespace KitchenStorage.Services.Implementation;
 
 public class GetInventory : IGetInventory
 {
@@ -11,11 +9,10 @@ public class GetInventory : IGetInventory
         _inventoryQuery = inventoryQuery;
     }
 
-    public async Task<PaginationResult<IEnumerable<Inventory>>> InventorysAsync(int page, int count, string? q)
+    public async Task<PaginationResult<IEnumerable<Inventory>>> InventorysAsync(int page, int count)
     {
-        Expression<Func<Inventory, bool>> query = n => q == null || n.Name.Contains(q);
         IEnumerable<Inventory> inventory = await _inventoryQuery.GetAllAsync(page, count);
-        var inventoryCount = await _inventoryQuery.CountAsync(query);
+        var inventoryCount = await _inventoryQuery.CountAsync();
 
         return inventory.GetPaginationResult(inventoryCount.PageCount(count));
     }

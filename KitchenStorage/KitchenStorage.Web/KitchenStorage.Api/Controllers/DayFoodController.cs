@@ -18,9 +18,9 @@ public class DayFoodController : ControllerBase
     }
 
     [HttpGet("DaysFoods")]
-    public async Task<IActionResult> GetDaysFoodsAsync(int page, int count, string? q)
+    public async Task<IActionResult> GetDaysFoodsAsync(int page, int count)
     {
-        var daysFoods = await _get.DayFoodsAsync(page, count, q);
+        var daysFoods = await _get.DayFoodsAsync(page, count);
 
         return Ok(Success("", "", new
         {
