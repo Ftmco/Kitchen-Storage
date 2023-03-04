@@ -92,11 +92,11 @@ internal class DayFoodAction : IDayFoodAction
             double value = await MealValueAsync(inventory, norm, makeMeal.Count);
             if (inventory.Value < value)
             {
-                logsOfInventory.ForEach(async (log) =>
+                foreach (var log in logsOfInventory)
                 {
                     await _inventoryHistoryList.DeleteAsync(l => l.HistoryId == log.Id);
                     await _inventoryHistory.DeleteAsync(log);
-                });
+                }
                 return DayFoodActionStatus.LackOfInventory;
             }
 
