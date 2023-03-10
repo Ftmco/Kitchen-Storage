@@ -92,7 +92,7 @@ internal class DayFoodAction : IDayFoodAction
             double value = await MealValueAsync(inventory, norm, makeMeal.Count);
             if (inventory.Value < value)
             {
-                foreach (var log in logsOfInventory)
+                foreach (InventoryHistory log in logsOfInventory)
                 {
                     await _inventoryHistoryList.DeleteAsync(l => l.HistoryId == log.Id);
                     await _inventoryHistory.DeleteAsync(log);
@@ -102,7 +102,7 @@ internal class DayFoodAction : IDayFoodAction
 
             inventory.Value -= value;
             inventories.Add(inventory);
-            await LogInventoryHistory(logId, inventory, makeMeal, value);
+            logsOfInventory.Add(await LogInventoryHistory(logId, inventory, makeMeal, value));
         }
         await _inventoryCud.UpdateAsync(inventories);
 
